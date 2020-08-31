@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
+﻿
 using Foundation;
+using MusicPlayer.Services.PlayService;
 using UIKit;
+using Xamarin.Forms;
 
 namespace MusicPlayer.iOS
 {
@@ -24,6 +23,8 @@ namespace MusicPlayer.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
+
+            DependencyService.Register<IPlayAudio, Services.PlayAudio>();
 
             return base.FinishedLaunching(app, options);
         }
