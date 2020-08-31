@@ -7,27 +7,28 @@ namespace MusicPlayer.Droid.Services
 {
     public class PlayAudio : IPlayAudio
     {
-        public PlayAudio()
-        {
-        }
+		private MediaPlayer mediaPlayer;
 
-		public void PlayFile(string fileName)
+        public void StartPlayTrack(string fileName)
 		{
-			//var u = Android.Net.Uri.Parse(fileName);
-			//MediaPlayer _player = MediaPlayer.Create(this, u);
-			//_player.Start();
-
-			//_player = MediaPlayer.Create(this, Resource.Raw.vMireZhivotnyh);
-			//_player.Start();
-
-			var player = new MediaPlayer();
+			mediaPlayer = new MediaPlayer();
 			var fd = Android.App.Application.Context.Assets.OpenFd(fileName);
-			player.Prepared += (s, e) =>
+			mediaPlayer.Prepared += (s, e) =>
 			{
-				player.Start();
+				mediaPlayer?.Start();
 			};
-			player.SetDataSource(fd.FileDescriptor, fd.StartOffset, fd.Length);
-			player.Prepare();
+			mediaPlayer.SetDataSource(fd.FileDescriptor, fd.StartOffset, fd.Length);
+			mediaPlayer.Prepare();
 		}
-    }
+
+		public void ContinuePlayTrack()
+		{
+			mediaPlayer?.Start();
+		}
+
+		public void PauseTrack()
+		{
+			mediaPlayer?.Pause(); 
+		}
+	}
 }

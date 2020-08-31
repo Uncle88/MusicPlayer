@@ -3,6 +3,8 @@ namespace MusicPlayer.Services.PlayService
 {
     public interface IPlayAudio
     {
-        void PlayFile(string fileName);
+        void StartPlayTrack(string fileName);
+        void ContinuePlayTrack();
+        void PauseTrack();
     }
 }

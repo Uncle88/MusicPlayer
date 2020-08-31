@@ -10,21 +10,28 @@ namespace MusicPlayer.iOS.Services
 {
     public class PlayAudio : IPlayAudio
     {
-        public PlayAudio()
-        {
-            ObjCRuntime.Class.ThrowOnInitFailure = true;
-        }
+        private AVAudioPlayer _mediaPlayer;
 
-        public void PlayFile(string fileName)
+        public void StartPlayTrack(string fileName)
         {
             string sFilePath = NSBundle.MainBundle.PathForResource(Path.GetFileNameWithoutExtension(fileName), Path.GetExtension(fileName));
             var url = NSUrl.FromString(sFilePath);
-            var _mediaPlayer = AVAudioPlayer.FromUrl(url);
+            _mediaPlayer = AVAudioPlayer.FromUrl(url);
             _mediaPlayer.FinishedPlaying += (object sender, AVStatusEventArgs e) =>
             {
                 _mediaPlayer = null;
             };
-            _mediaPlayer.Play();
+            _mediaPlayer?.Play();
+        }
+
+        public void PauseTrack()
+        {
+            _mediaPlayer?.Pause();
+        }
+
+        public void ContinuePlayTrack()
+        {
+            _mediaPlayer?.Play();
         }
     }
 }
