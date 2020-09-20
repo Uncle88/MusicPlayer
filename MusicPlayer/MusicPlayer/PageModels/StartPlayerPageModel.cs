@@ -8,6 +8,8 @@ namespace MusicPlayer.PageModels
     public class StartPlayerPageModel : FreshBasePageModel
     {
         private Command _playStopCommand;
+        private Command _prevTrackCommand;
+        private Command _nextTrackCommand;
         private IPlayAudio audioService;
         private bool _isTrackPlay = false;
         private bool _isFirstStart = false;
@@ -27,7 +29,7 @@ namespace MusicPlayer.PageModels
                     {
                         if (!_isFirstStart)
                         {
-                            audioService.StartPlayTrack("stas.mp3");
+                            audioService.StartPlayTrack();
                             _isFirstStart = true;
                         }
                         else
@@ -41,6 +43,28 @@ namespace MusicPlayer.PageModels
                         audioService.PauseTrack();
                         _isTrackPlay = false;
                     }
+                }));
+            }
+        }
+
+        public Command PrevTrackCommand
+        {
+            get
+            {
+                return _prevTrackCommand ?? (_prevTrackCommand = new Command(() =>
+                {
+                    audioService.PrevPlayTrack();
+                }));
+            }
+        }
+
+        public Command NextTrackCommand
+        {
+            get
+            {
+                return _nextTrackCommand ?? (_nextTrackCommand = new Command(() =>
+                {
+                    audioService.NextPlayTrack();
                 }));
             }
         }

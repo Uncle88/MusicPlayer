@@ -1,9 +1,9 @@
 ﻿
-using System.IO;
+using System.Collections.Generic;
 using AVFoundation;
 using Foundation;
+using MediaPlayer;
 using MusicPlayer.Services.PlayService;
-
 
 [assembly: Xamarin.Forms.Dependency(typeof(MusicPlayer.iOS.Services.PlayAudio))]
 namespace MusicPlayer.iOS.Services
@@ -12,11 +12,10 @@ namespace MusicPlayer.iOS.Services
     {
         private AVAudioPlayer _mediaPlayer;
 
-        public void StartPlayTrack(string fileName)
+        public void StartPlayTrack()
         {
-            string sFilePath = NSBundle.MainBundle.PathForResource(Path.GetFileNameWithoutExtension(fileName), Path.GetExtension(fileName));
-            var url = NSUrl.FromString(sFilePath);
-            _mediaPlayer = AVAudioPlayer.FromUrl(url);
+            var tracks = GetTrackList();
+            _mediaPlayer = AVAudioPlayer.FromUrl(tracks[0]);
             _mediaPlayer.FinishedPlaying += (object sender, AVStatusEventArgs e) =>
             {
                 _mediaPlayer = null;
@@ -31,7 +30,28 @@ namespace MusicPlayer.iOS.Services
 
         public void ContinuePlayTrack()
         {
-            _mediaPlayer?.Play();
+            StartPlayTrack();
+        }
+
+        private List<NSUrl> GetTrackList()
+        {
+            var list = new List<NSUrl>();
+            var soundsQuery = MPMediaQuery.SongsQuery;
+            var playlistCollection = soundsQuery.Collections;
+            foreach (MPMediaItemCollection collection in playlistCollection)
+            {
+                list.Add(collection.Items[0].AssetURL);
+            }
+
+            return list;
+        }
+
+        public void PrevPlayTrack()
+        {
+        }
+
+        public void NextPlayTrack()
+        {
         }
     }
 }
