@@ -1,4 +1,5 @@
 ﻿
+using AVFoundation;
 using Foundation;
 using MusicPlayer.Services.PlayService;
 using UIKit;
@@ -25,6 +26,11 @@ namespace MusicPlayer.iOS
             LoadApplication(new App());
 
             DependencyService.Register<IPlayAudio, Services.PlayAudio>();
+
+            NSError sessionError = null;
+            AVAudioSession.SharedInstance().SetCategory(AVAudioSession.CategoryPlayback, out sessionError);
+
+            AVAudioSession.SharedInstance().SetActive(true, out sessionError);
 
             return base.FinishedLaunching(app, options);
         }
