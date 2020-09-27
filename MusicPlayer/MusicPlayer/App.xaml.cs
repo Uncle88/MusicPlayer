@@ -1,10 +1,8 @@
-﻿using System;
+﻿
 using FreshMvvm;
 using MusicPlayer.PageModels;
-using MusicPlayer.Pages;
 using MusicPlayer.Services.PlayService;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace MusicPlayer
 {
@@ -20,8 +18,6 @@ namespace MusicPlayer
 
         private void RegisterServices()
         {
-            //FreshIOC.Container.Register<INavigationService, NavigationService>();
-
             DependencyService.Register<IPlayAudio, PlayAudio>();
         }
 

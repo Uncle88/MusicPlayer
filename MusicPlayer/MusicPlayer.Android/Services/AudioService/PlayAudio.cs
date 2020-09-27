@@ -116,10 +116,8 @@ namespace MusicPlayer.Droid.Services
 
         public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
         {
-            Notification notif = notificationHelper.ReturnNotif();
+            Notification notif = notificationHelper.CreateNotification();
             StartForeground(ServiceRunningNotifID, notif);
-
-            //_ = DoLongRunningOperationThings();
 
             return StartCommandResult.NotSticky;
         }
@@ -129,9 +127,9 @@ namespace MusicPlayer.Droid.Services
             base.OnDestroy();
         }
 
-        public override bool StopService(Intent name)
+        public override bool StopService(Intent currentIntent)
         {
-            return base.StopService(name);
+            return base.StopService(currentIntent);
         }
     }
 }
