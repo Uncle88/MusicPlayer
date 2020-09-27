@@ -1,29 +1,35 @@
 ﻿
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Android.App;
 using Android.Content;
 using Android.Media;
-using Android.Net;
+using Android.OS;
 using MusicPlayer.Droid.Models.TrackModel;
+using MusicPlayer.Droid.Services.NotificationService;
 using MusicPlayer.Services.PlayService;
 
 [assembly: Xamarin.Forms.Dependency(typeof(MusicPlayer.Droid.Services.PlayAudio))]
 namespace MusicPlayer.Droid.Services
 {
-    public class PlayAudio : IPlayAudio
+    [Service]
+    public class PlayAudio : Service ,IPlayAudio
     {
-		private MediaPlayer mediaPlayer;
+        private MediaPlayer mediaPlayer;
         private List<TrackModel> trackModels;
         private Context context;
         private TrackModel currentTrackPlaying;
 
+        private INotificationHelper notificationHelper;
+
         public PlayAudio()
         {
             mediaPlayer = new MediaPlayer();
-            context = Android.App.Application.Context;
+            context = Application.Context;
             trackModels = new List<TrackModel>();
+
+            notificationHelper = new NotificationHelper();
         }
 
         public void StartPlayTrack()
@@ -77,7 +83,7 @@ namespace MusicPlayer.Droid.Services
 
         private List<TrackModel> GetTrackModelsList()
 		{
-			string directory = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, Android.OS.Environment.DirectoryDownloads);
+			string directory = Path.Combine(Environment.ExternalStorageDirectory.AbsolutePath, Environment.DirectoryDownloads);
 
 			var allFilesPaths = Directory.GetFiles(directory);
             foreach (string musicFilePath in allFilesPaths)
@@ -99,6 +105,33 @@ namespace MusicPlayer.Droid.Services
             }
 
             return trackModels;
+        }
+
+        public override IBinder OnBind(Intent intent)
+        {
+            return null;
+        }
+
+        public const int ServiceRunningNotifID = 9000;
+
+        public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
+        {
+            Notification notif = notificationHelper.ReturnNotif();
+            StartForeground(ServiceRunningNotifID, notif);
+
+            //_ = DoLongRunningOperationThings();
+
+            return StartCommandResult.NotSticky;
+        }
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+        }
+
+        public override bool StopService(Intent name)
+        {
+            return base.StopService(name);
         }
     }
 }

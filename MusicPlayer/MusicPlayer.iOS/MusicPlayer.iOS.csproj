@@ -68,7 +68,7 @@
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\PlayAudio.cs" />
+    <Compile Include="Services\AudioService\PlayAudio.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -136,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
+    <Folder Include="Services\AudioService\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\stas.mp3" />
