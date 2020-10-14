@@ -3,7 +3,7 @@ using Android.App;
 
 namespace MusicPlayer.Droid.Services.NotificationService
 {
-    public interface INotificationHelper
+    public interface INotificationService
     {
         Notification CreateNotification();
     }

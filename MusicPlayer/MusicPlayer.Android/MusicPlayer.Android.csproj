@@ -63,9 +63,10 @@
     <Compile Include="Models\TrackModel\TrackModel.cs" />
     <Compile Include="Services\AudioService\PlayAudio.cs" />
     <Compile Include="Services\ForegroundService\ForegroundNeverEndingService.cs" />
-    <Compile Include="Services\NotificationService\NotificationHelper.cs" />
-    <Compile Include="Services\NotificationService\INotificationHelper.cs" />
+    <Compile Include="Services\NotificationService\NotificationService.cs" />
+    <Compile Include="Services\NotificationService\INotificationService.cs" />
     <Compile Include="Services\ForegroundService\IForegroundNeverEndingService.cs" />
+    <Compile Include="Services\CustomActionReceiver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

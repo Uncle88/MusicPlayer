@@ -16,12 +16,14 @@ namespace MusicPlayer.Droid.Services
     [Service]
     public class PlayAudio : Service ,IPlayAudio
     {
+        public const int ServiceRunningNotifID = 9000;
+
         private MediaPlayer mediaPlayer;
         private List<TrackModel> trackModels;
         private Context context;
         private TrackModel currentTrackPlaying;
 
-        private INotificationHelper notificationHelper;
+        private INotificationService notificationService;
 
         public PlayAudio()
         {
@@ -29,7 +31,7 @@ namespace MusicPlayer.Droid.Services
             context = Application.Context;
             trackModels = new List<TrackModel>();
 
-            notificationHelper = new NotificationHelper();
+            notificationService = new NotificationService.NotificationService();
         }
 
         public void StartPlayTrack()
@@ -112,11 +114,9 @@ namespace MusicPlayer.Droid.Services
             return null;
         }
 
-        public const int ServiceRunningNotifID = 9000;
-
         public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
         {
-            Notification notif = notificationHelper.CreateNotification();
+            Notification notif = notificationService.CreateNotification();
             StartForeground(ServiceRunningNotifID, notif);
 
             return StartCommandResult.NotSticky;
