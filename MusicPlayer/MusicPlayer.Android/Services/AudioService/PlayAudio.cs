@@ -6,6 +6,8 @@ using Android.App;
 using Android.Content;
 using Android.Media;
 using Android.OS;
+using Android.Support.V4.Media;
+using Android.Support.V4.Media.Session;
 using MusicPlayer.Droid.Models.TrackModel;
 using MusicPlayer.Droid.Services.NotificationService;
 using MusicPlayer.Services.PlayService;
@@ -14,16 +16,51 @@ using MusicPlayer.Services.PlayService;
 namespace MusicPlayer.Droid.Services
 {
     [Service]
-    public class PlayAudio : Service ,IPlayAudio
+    public class PlayAudio : MediaBrowserServiceCompat, IPlayAudio
     {
-        public const int ServiceRunningNotifID = 9000;
+        private const int ServiceRunningNotifID = 9000;
+        private const string MediaSessionTag = "TAG";
 
         private MediaPlayer mediaPlayer;
         private List<TrackModel> trackModels;
         private Context context;
         private TrackModel currentTrackPlaying;
-
         private INotificationService notificationService;
+
+        private MediaSessionCompat mediaSession;
+        private PlaybackStateCompat.Builder stateBuilder;
+
+        public override void OnCreate()
+        {
+            base.OnCreate();
+
+            // Create a MediaSessionCompat
+            mediaSession = new MediaSessionCompat(context, MediaSessionTag);
+
+            // Enable callbacks from MediaButtons and TransportControls
+            mediaSession.SetFlags(MediaSessionCompat.FlagHandlesMediaButtons | MediaSessionCompat.FlagHandlesTransportControls);
+
+            // Set an initial PlaybackState with ACTION_PLAY, so media buttons can start the player
+            stateBuilder = new PlaybackStateCompat.Builder()
+                .SetActions(PlaybackStateCompat.ActionPlay | PlaybackStateCompat.ActionPlayPause);
+            mediaSession.SetPlaybackState(stateBuilder.Build());
+
+            // MySessionCallback() has methods that handle callbacks from a media controller
+            //mediaSession.SetCallback(new MySessionCallback());
+
+            // Set the session's token so that client activities can communicate with it.
+            SessionToken = mediaSession.SessionToken;
+        }
+
+        public override BrowserRoot OnGetRoot(string clientPackageName, int clientUid, Bundle rootHints)
+        {
+            return null;
+        }
+
+        public override void OnLoadChildren(string parentId, Result result)
+        {
+
+        }
 
         public PlayAudio()
         {
