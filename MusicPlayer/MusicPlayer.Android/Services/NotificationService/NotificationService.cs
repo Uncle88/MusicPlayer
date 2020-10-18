@@ -14,11 +14,19 @@ namespace MusicPlayer.Droid.Services.NotificationService
 
         public Notification CreateNotification()
         {
+            var intent = new Intent(context, typeof(MainActivity));
+            intent.AddFlags(ActivityFlags.SingleTop);
+            var pendingIntent = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.UpdateCurrent);
+
             var notifBuilder = new NotificationCompat.Builder(context, ForegroundChannelId)
                 .SetContentTitle("Your Title")
                 .SetContentText("Main Text Body")
                 .SetSmallIcon(Resource.Drawable.notification_tile_bg)
                 .SetAutoCancel(true)
+                .SetContentIntent(pendingIntent)
+                .AddAction(Resource.Drawable.abc_btn_radio_material, "P", MakePendingIntent("P"))
+                .AddAction(Resource.Drawable.abc_btn_radio_material, "P/P", MakePendingIntent("P/P"))
+                .AddAction(Resource.Drawable.abc_btn_radio_material, "N", MakePendingIntent("N"))
                 .AddAction(Resource.Drawable.abc_btn_radio_material, "close", MakePendingIntent("close"));
 
             // Building notification channel
@@ -45,7 +53,7 @@ namespace MusicPlayer.Droid.Services.NotificationService
 
         private PendingIntent MakePendingIntent(string actionName)
         {
-            var cont = Android.App.Application.Context;
+            var cont = Application.Context;
             var intent = new Intent(cont, typeof(CustomActionReceiver));
             intent.SetAction(actionName);
             PendingIntent pendingIntent = PendingIntent.GetBroadcast(cont, 0, intent, 0);
