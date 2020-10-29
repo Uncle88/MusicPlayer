@@ -1,9 +1,9 @@
 ﻿
-using System;
 using System.Collections.Generic;
 using System.IO;
 using Android.Content;
 using Android.Media;
+using Android.Net;
 using MusicPlayer.Model;
 using MusicPlayer.Services.PlayService;
 
@@ -28,33 +28,30 @@ namespace MusicPlayer.Droid.Services
         [System.Obsolete]
         public void StartPlayTrack()
 		{
-            trackModels = GetTrackModelsList();
+            var directoryPath = GetMusicDirectory();
+            trackModels = GetTrackModelsList(directoryPath);
             currentTrack = trackModels[0];
-            Android.Net.Uri uri = Android.Net.Uri.Parse(currentTrack.Path);
+            Uri uri = Uri.Parse(currentTrack.Path);
 
-            mediaPlayer.SetDataSource(context, uri);
-            mediaPlayer.Prepare();
-            mediaPlayer.Start();
+            SetPlayerSourse(uri);
         }
-
-        public void ContinuePlayTrack()
-		{
-			mediaPlayer?.Start();
-		}
-
-		public void PauseTrack()
-		{
-			mediaPlayer?.Pause(); 
-		}
 
         private void StartPlayTrack(TrackModel model)
         {
             mediaPlayer = new MediaPlayer();
-            Android.Net.Uri uri = Android.Net.Uri.Parse(model.Path);
+            Uri uri = Uri.Parse(model.Path);
 
-            mediaPlayer.SetDataSource(context, uri);
-            mediaPlayer.Prepare();
-            mediaPlayer.Start();
+            SetPlayerSourse(uri);
+        }
+
+        public void ContinuePlayTrack()
+        {
+            mediaPlayer?.Start();
+        }
+
+        public void PauseTrack()
+        {
+            mediaPlayer?.Pause();
         }
 
         public void NextPlayTrack()
@@ -62,6 +59,10 @@ namespace MusicPlayer.Droid.Services
             ResetPlayer();
 
             currentTrackIndex = trackModels.IndexOf(currentTrack) + 1;
+            if (currentTrackIndex > trackModels.Count - 1)
+            {
+                currentTrackIndex = 0;
+            }
             currentTrack = trackModels[currentTrackIndex];
             StartPlayTrack(currentTrack);
         }
@@ -71,17 +72,24 @@ namespace MusicPlayer.Droid.Services
             ResetPlayer();
 
             currentTrackIndex = trackModels.IndexOf(currentTrack) - 1;
+            if (currentTrackIndex < 0)
+            {
+                currentTrackIndex = trackModels.Count - 1;
+            }
             currentTrack = trackModels[currentTrackIndex];
             StartPlayTrack(currentTrack);
         }
 
-        [System.Obsolete]
-        public List<TrackModel> GetTrackModelsList()
+        private string[] GetMusicDirectory()
 		{
-			string directory = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, Android.OS.Environment.DirectoryDownloads);
+			string directoryDownloadsPath = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, Android.OS.Environment.DirectoryDownloads);
 
-			var allFilesPaths = Directory.GetFiles(directory);
-            foreach (string musicFilePath in allFilesPaths)
+            return Directory.GetFiles(directoryDownloadsPath);
+        }
+
+        private List<TrackModel> GetTrackModelsList(string[] directoriesPathArray)
+        {
+            foreach (string musicFilePath in directoriesPathArray)
             {
                 MediaMetadataRetriever mmr = new MediaMetadataRetriever();
                 mmr.SetDataSource(musicFilePath);
@@ -105,6 +113,13 @@ namespace MusicPlayer.Droid.Services
             mediaPlayer.Reset();
             mediaPlayer.Release();
             mediaPlayer = null;
+        }
+
+        private void SetPlayerSourse(Uri uri)
+        {
+            mediaPlayer.SetDataSource(context, uri);
+            mediaPlayer.Prepare();
+            mediaPlayer.Start();
         }
     }
 }
