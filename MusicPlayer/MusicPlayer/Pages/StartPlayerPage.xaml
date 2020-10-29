@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:view="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-             NavigationPage.HasNavigationBar="False"
-             x:Class="MusicPlayer.Pages.StartPlayerPage">
+<page:BasePage xmlns="http://xamarin.com/schemas/2014/forms"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:page="clr-namespace:MusicPlayer.Pages"
+               xmlns:view="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+               NavigationPage.HasNavigationBar="False"
+               x:Class="MusicPlayer.Pages.StartPlayerPage">
 
     <view:PancakeView HorizontalOptions="FillAndExpand"
                       VerticalOptions="FillAndExpand"
@@ -171,7 +172,7 @@
                             </view:GradientStopCollection>
                         </view:PancakeView.BackgroundGradientStops>
                         <view:PancakeView.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ChangeTrackCommand}" CommandParameter="P"/>
+                            <TapGestureRecognizer Command="{Binding PreviousTrackCommand}"/>
                         </view:PancakeView.GestureRecognizers>
                         <Image Source="previous.png"
                                HeightRequest="15"
@@ -217,7 +218,7 @@
                             </view:GradientStopCollection>
                         </view:PancakeView.BackgroundGradientStops>
                         <view:PancakeView.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ChangeTrackCommand}" CommandParameter="N"/>
+                            <TapGestureRecognizer Command="{Binding NextTrackCommand}"/>
                         </view:PancakeView.GestureRecognizers>
                         <Image Source="next.png"
                                HeightRequest="15"
@@ -229,4 +230,4 @@
             </StackLayout>
         </Grid>
     </view:PancakeView>
-</ContentPage>
+</page:BasePage>

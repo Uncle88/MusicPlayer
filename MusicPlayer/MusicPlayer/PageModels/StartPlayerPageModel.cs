@@ -14,12 +14,49 @@ namespace MusicPlayer.PageModels
         private bool _isFirstStart = false;
 
         public ICommand PlayStopCommand => new Command(PlayStopCommandExecute);
-        public ICommand ChangeTrackCommand => new Command(ChangeTrackCommandExecute);
+        public ICommand NextTrackCommand => new Command(NextTrackCommandExecute);
+        public ICommand PreviousTrackCommand => new Command(PreviousTrackCommandExecute);
         public bool IsPlaying { get; set; }
 
         public StartPlayerPageModel()
         {
             audioService = DependencyService.Get<IPlayAudio>();
+        }
+
+        private TimeSpan duration;
+        public TimeSpan Duration
+        {
+            get { return duration; }
+            set
+            {
+                duration = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private TimeSpan position;
+        public TimeSpan Position
+        {
+            get { return position; }
+            set
+            {
+                position = value;
+                OnPropertyChanged();
+            }
+        }
+
+        double maximum = 100f;
+        public double Maximum
+        {
+            get { return maximum; }
+            set
+            {
+                if (value > 0)
+                {
+                    maximum = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         private void PlayStopCommandExecute(object obj)
@@ -30,6 +67,14 @@ namespace MusicPlayer.PageModels
                 {
                     audioService.StartPlayTrack();
                     _isFirstStart = true;
+
+                    Device.StartTimer(TimeSpan.FromMilliseconds(500), () =>
+                    {
+                        Duration = new TimeSpan(0, 0, 5); //mediaInfo.Duration;
+                        Maximum = 0;//duration.TotalSeconds;
+                        Position = new TimeSpan(0, 0, 0); //mediaInfo.Position;
+                        return true;
+                    });
                 }
                 else
                 {
@@ -44,20 +89,12 @@ namespace MusicPlayer.PageModels
             }
         }
 
-        private void ChangeTrackCommandExecute(object obj)
-        {
-            if ((string)obj == "P")
-                PreviousTrack();
-            else if ((string)obj == "N")
-                NextTrack();
-        }
-
-        private void NextTrack()
+        private void NextTrackCommandExecute()
         {
             audioService.NextPlayTrack();
         }
 
-        private void PreviousTrack()
+        private void PreviousTrackCommandExecute()
         {
             audioService.PrevPlayTrack();
         }

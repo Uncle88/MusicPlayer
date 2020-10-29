@@ -12,5 +12,8 @@ namespace MusicPlayer.PageModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+
+        public virtual void Initialize() { }
+        public virtual void Deinitialize() { }
     }
 }
