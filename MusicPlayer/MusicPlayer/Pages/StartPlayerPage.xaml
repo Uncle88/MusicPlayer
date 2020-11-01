@@ -3,6 +3,7 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:page="clr-namespace:MusicPlayer.Pages"
                xmlns:view="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+               xmlns:controls="clr-namespace:MusicPlayer.Controls"
                NavigationPage.HasNavigationBar="False"
                x:Class="MusicPlayer.Pages.StartPlayerPage">
 
@@ -107,12 +108,15 @@
                                     CornerRadius="75"
                                     HorizontalOptions="Center"
                                     VerticalOptions="Center">
-                        <Image Source="{Binding SelectedMusic.CoverImage}"
-                               Aspect="AspectFill"
-                               HeightRequest="150"
-                               WidthRequest="150"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"/>
+                        <controls:RotationImage x:Name="image"
+                                                Source="disk.png"
+                                                Aspect="AspectFill"
+                                                HeightRequest="150"
+                                                WidthRequest="150"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center"
+                                                Duration="{Binding Duration}"
+                                                IsPlaying="{Binding IsPlaying}"/>
                     </view:PancakeView>
                 </view:PancakeView>
 
@@ -172,13 +176,15 @@
                             </view:GradientStopCollection>
                         </view:PancakeView.BackgroundGradientStops>
                         <view:PancakeView.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding PreviousTrackCommand}"/>
+                            <TapGestureRecognizer Command="{Binding PreviousTrackCommand}" Tapped="ButtonTapped"/>
                         </view:PancakeView.GestureRecognizers>
-                        <Image Source="previous.png"
-                               HeightRequest="15"
-                               WidthRequest="15"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"/>
+                        <controls:RotationImage Source="previous.png"
+                                                x:Name="prevImage"
+                                                HeightRequest="15"
+                                                WidthRequest="15"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center"
+                                                IsPlaying="{Binding IsPlaying}"/>
                     </view:PancakeView>
 
                     <view:PancakeView HasShadow="True"
@@ -195,13 +201,15 @@
                             </view:GradientStopCollection>
                         </view:PancakeView.BackgroundGradientStops>
                         <view:PancakeView.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding PlayStopCommand}"/>
+                            <TapGestureRecognizer Command="{Binding PlayStopCommand}" Tapped="ButtonTapped"/>
                         </view:PancakeView.GestureRecognizers>
-                        <Image Source="{Binding IsPlaying, Converter={StaticResource PlayPauseImageConverter}}"
-                               HeightRequest="21"
-                               WidthRequest="21"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"/>
+                        <controls:RotationImage Source="{Binding IsPlaying, Converter={StaticResource PlayPauseImageConverter}}"
+                                                x:Name="playImage"
+                                                HeightRequest="21"
+                                                WidthRequest="21"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center"
+                                                IsPlaying="{Binding IsPlaying}"/>
                     </view:PancakeView>
 
                     <view:PancakeView HasShadow="True"
@@ -218,13 +226,15 @@
                             </view:GradientStopCollection>
                         </view:PancakeView.BackgroundGradientStops>
                         <view:PancakeView.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding NextTrackCommand}"/>
+                            <TapGestureRecognizer Command="{Binding NextTrackCommand}" Tapped="ButtonTapped"/>
                         </view:PancakeView.GestureRecognizers>
-                        <Image Source="next.png"
-                               HeightRequest="15"
-                               WidthRequest="15"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"/>
+                        <controls:RotationImage Source="next.png"
+                                                x:Name="nextImage"
+                                                HeightRequest="15"
+                                                WidthRequest="15"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center"
+                                                IsPlaying="{Binding IsPlaying}"/>
                     </view:PancakeView>
                 </StackLayout>
             </StackLayout>

@@ -4,6 +4,7 @@ using Xamarin.Forms;
 using PropertyChanged;
 using System.Windows.Input;
 using System;
+using MusicPlayer.Model;
 
 namespace MusicPlayer.PageModels
 {
@@ -11,7 +12,7 @@ namespace MusicPlayer.PageModels
     public class StartPlayerPageModel : BasePageModel
     {
         private IPlayAudio audioService;
-        private bool _isFirstStart = false;
+        private bool isFirstStart = false;
 
         public ICommand PlayStopCommand => new Command(PlayStopCommandExecute);
         public ICommand NextTrackCommand => new Command(NextTrackCommandExecute);
@@ -23,8 +24,19 @@ namespace MusicPlayer.PageModels
             audioService = DependencyService.Get<IPlayAudio>();
         }
 
-        private TimeSpan duration;
-        public TimeSpan Duration
+        private TrackModel selectedMusic;
+        public TrackModel SelectedMusic
+        {
+            get { return selectedMusic; }
+            set
+            {
+                selectedMusic = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private uint duration;
+        public uint Duration
         {
             get { return duration; }
             set
@@ -63,14 +75,16 @@ namespace MusicPlayer.PageModels
         {
             if (!IsPlaying)
             {
-                if (!_isFirstStart)
+                if (!isFirstStart)
                 {
                     audioService.StartPlayTrack();
-                    _isFirstStart = true;
+                    SelectedMusic = audioService.GetCurrentTrackModel();
+                    Duration = 5000;
+                    isFirstStart = true;
 
                     Device.StartTimer(TimeSpan.FromMilliseconds(500), () =>
                     {
-                        Duration = new TimeSpan(0, 0, 5); //mediaInfo.Duration;
+                        //Duration = new TimeSpan(0, 0, 5); //mediaInfo.Duration;
                         Maximum = 0;//duration.TotalSeconds;
                         Position = new TimeSpan(0, 0, 0); //mediaInfo.Position;
                         return true;
@@ -91,12 +105,18 @@ namespace MusicPlayer.PageModels
 
         private void NextTrackCommandExecute()
         {
+            IsPlaying = false;
             audioService.NextPlayTrack();
+            SelectedMusic = audioService.GetCurrentTrackModel();
+            IsPlaying = true;
         }
 
         private void PreviousTrackCommandExecute()
         {
+            IsPlaying = false;
             audioService.PrevPlayTrack();
+            SelectedMusic = audioService.GetCurrentTrackModel();
+            IsPlaying = true;
         }
     }
 }

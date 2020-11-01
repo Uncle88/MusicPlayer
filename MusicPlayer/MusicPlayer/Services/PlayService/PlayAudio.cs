@@ -1,4 +1,5 @@
 ﻿
+using MusicPlayer.Model;
 using Xamarin.Forms;
 
 namespace MusicPlayer.Services.PlayService
@@ -28,6 +29,11 @@ namespace MusicPlayer.Services.PlayService
         public void PrevPlayTrack()
         {
             DependencyService.Get<IPlayAudio>().PrevPlayTrack();
+        }
+
+        public TrackModel GetCurrentTrackModel()
+        {
+            return DependencyService.Get<IPlayAudio>().GetCurrentTrackModel();
         }
     }
 }

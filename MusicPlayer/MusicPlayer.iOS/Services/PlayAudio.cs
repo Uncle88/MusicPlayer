@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AVFoundation;
 using Foundation;
 using MediaPlayer;
+using MusicPlayer.Model;
 using MusicPlayer.Services.PlayService;
 
 [assembly: Xamarin.Forms.Dependency(typeof(MusicPlayer.iOS.Services.PlayAudio))]
@@ -48,6 +49,11 @@ namespace MusicPlayer.iOS.Services
 
         public void PrevPlayTrack()
         {
+        }
+
+        public TrackModel GetCurrentTrackModel()
+        {
+            throw new System.NotImplementedException();
         }
 
         public void NextPlayTrack()

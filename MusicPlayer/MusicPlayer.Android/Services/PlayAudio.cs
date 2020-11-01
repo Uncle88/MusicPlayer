@@ -80,6 +80,11 @@ namespace MusicPlayer.Droid.Services
             StartPlayTrack(currentTrack);
         }
 
+        public TrackModel GetCurrentTrackModel()
+        {
+            return currentTrack;
+        }
+
         private string[] GetMusicDirectory()
 		{
 			string directoryDownloadsPath = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, Android.OS.Environment.DirectoryDownloads);
@@ -100,7 +105,6 @@ namespace MusicPlayer.Droid.Services
                     Title = mmr.ExtractMetadata(MetadataKey.Title),
                     Artist = mmr.ExtractMetadata(MetadataKey.Artist),
                     Genre = mmr.ExtractMetadata(MetadataKey.Genre),
-                    Image = mmr.ExtractMetadata(MetadataKey.ImagePrimary),
                     Path = musicFilePath
                 });
             }

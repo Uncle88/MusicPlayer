@@ -8,8 +8,6 @@ namespace MusicPlayer.Model
         public string Title { get; set; }
         public string Artist { get; set; }
         public string Url { get; set; }
-        public string Image { get; set; }
         public string Path { get; set; }
-        public bool IsRecent { get; set; }
     }
 }
