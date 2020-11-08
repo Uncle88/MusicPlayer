@@ -17,6 +17,13 @@ namespace MusicPlayer.PageModels
         public ICommand PlayStopCommand => new Command(PlayStopCommandExecute);
         public ICommand NextTrackCommand => new Command(NextTrackCommandExecute);
         public ICommand PreviousTrackCommand => new Command(PreviousTrackCommandExecute);
+        public ICommand OpenTabbedPageCommand => new Command(OpenTabbedPageCommandExecute);
+
+        private async void OpenTabbedPageCommandExecute()
+        {
+            await CoreMethods.PushPageModel<ListTabbedPageModel>();
+        }
+
         public bool IsPlaying { get; set; }
 
         public StartPlayerPageModel()

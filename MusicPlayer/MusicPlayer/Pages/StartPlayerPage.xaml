@@ -81,7 +81,7 @@
                         </view:GradientStopCollection>
                     </view:PancakeView.BackgroundGradientStops>
                     <view:PancakeView.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ShareCommand}"/>
+                        <TapGestureRecognizer Command="{Binding OpenTabbedPageCommand}"/>
                     </view:PancakeView.GestureRecognizers>
                     <Image Source="share.png"
                            HeightRequest="15"

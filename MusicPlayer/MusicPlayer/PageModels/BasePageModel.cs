@@ -1,10 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using FreshMvvm;
 
 namespace MusicPlayer.PageModels
 {
-    public class BasePageModel : INotifyPropertyChanged
+    public class BasePageModel : FreshBasePageModel, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

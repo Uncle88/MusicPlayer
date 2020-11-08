@@ -13,7 +13,6 @@ namespace MusicPlayer.Pages
         public StartPlayerPage()
         {
             InitializeComponent();
-            BindingContext = new StartPlayerPageModel();
         }
 
         async void ButtonTapped(System.Object sender, System.EventArgs e)

@@ -1,4 +1,6 @@
 ﻿
+using FreshMvvm;
+using MusicPlayer.PageModels;
 using MusicPlayer.Pages;
 using MusicPlayer.Services.PlayService;
 using Xamarin.Forms;
@@ -11,12 +13,15 @@ namespace MusicPlayer
         {
             InitializeComponent();
             RegisterServices();
-            MainPage = new NavigationPage(new StartPlayerPage());
+
+            var page = FreshPageModelResolver.ResolvePageModel<StartPlayerPageModel>();
+            var basicNavContainer = new FreshNavigationContainer(page);
+            MainPage = basicNavContainer;
         }
 
         private void RegisterServices()
         {
-            DependencyService.Register<IPlayAudio, PlayAudio>();
+            FreshIOC.Container.Register<IPlayAudio, PlayAudio>();
         }
 
         protected override void OnStart()
