@@ -63,7 +63,8 @@
                        FontSize="12"
                        Opacity="0.5"
                        HorizontalOptions="Center"
-                       VerticalOptions="Center"/>
+                       VerticalOptions="Center"
+                       IsVisible="{Binding IsPlaying}"/>
 
                 <view:PancakeView Grid.Column="2"
                                 HasShadow="True"
@@ -121,17 +122,21 @@
                 </view:PancakeView>
 
                 <StackLayout HorizontalOptions="Center">
-                    <StackLayout>
+                    <ScrollView HorizontalOptions="Fill">
                         <Label Text="{Binding SelectedMusic.Title}"
                                TextColor="Black"
                                FontSize="25"
-                               HorizontalOptions="Center"/>
+                               x:Name="animatedLabel"
+                               LineBreakMode="NoWrap"
+                               TranslationX="360"
+                               HorizontalOptions="Fill"
+                               HorizontalTextAlignment="Center"/>
+                    </ScrollView>
                         <Label Text="{Binding SelectedMusic.Artist}"
                                TextColor="Black"
                                FontSize="15"
                                Opacity="0.5"
                                HorizontalOptions="Center"/>
-                    </StackLayout>
                 </StackLayout>
             </StackLayout>
 

@@ -105,18 +105,24 @@ namespace MusicPlayer.PageModels
 
         private void NextTrackCommandExecute()
         {
-            IsPlaying = false;
-            audioService.NextPlayTrack();
-            SelectedMusic = audioService.GetCurrentTrackModel();
-            IsPlaying = true;
+            if (isFirstStart)
+            {
+                IsPlaying = false;
+                audioService.NextPlayTrack();
+                SelectedMusic = audioService.GetCurrentTrackModel();
+                IsPlaying = true;
+            }
         }
 
         private void PreviousTrackCommandExecute()
         {
-            IsPlaying = false;
-            audioService.PrevPlayTrack();
-            SelectedMusic = audioService.GetCurrentTrackModel();
-            IsPlaying = true;
+            if (isFirstStart)
+            {
+                IsPlaying = false;
+                audioService.PrevPlayTrack();
+                SelectedMusic = audioService.GetCurrentTrackModel();
+                IsPlaying = true;
+            }
         }
     }
 }
