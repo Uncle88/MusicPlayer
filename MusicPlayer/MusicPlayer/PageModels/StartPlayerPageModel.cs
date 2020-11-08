@@ -1,71 +1,127 @@
 ﻿
-using FreshMvvm;
 using MusicPlayer.Services.PlayService;
 using Xamarin.Forms;
+using PropertyChanged;
+using System.Windows.Input;
+using System;
+using MusicPlayer.Model;
 
 namespace MusicPlayer.PageModels
 {
-    public class StartPlayerPageModel : FreshBasePageModel
+    [AddINotifyPropertyChangedInterface]
+    public class StartPlayerPageModel : BasePageModel
     {
-        private Command _playStopCommand;
-        private Command _prevTrackCommand;
-        private Command _nextTrackCommand;
         private IPlayAudio audioService;
-        private bool _isTrackPlay = false;
-        private bool _isFirstStart = false;
+        private bool isFirstStart = false;
+
+        public ICommand PlayStopCommand => new Command(PlayStopCommandExecute);
+        public ICommand NextTrackCommand => new Command(NextTrackCommandExecute);
+        public ICommand PreviousTrackCommand => new Command(PreviousTrackCommandExecute);
+        public bool IsPlaying { get; set; }
 
         public StartPlayerPageModel()
         {
             audioService = DependencyService.Get<IPlayAudio>();
         }
 
-        public Command PlayStopCommand
+        private TrackModel selectedMusic;
+        public TrackModel SelectedMusic
         {
-            get
+            get { return selectedMusic; }
+            set
             {
-                return _playStopCommand ?? (_playStopCommand = new Command(() =>
-                {
-                    if (!_isTrackPlay)
-                    {
-                        if (!_isFirstStart)
-                        {
-                            audioService.StartPlayTrack();
-                            _isFirstStart = true;
-                        }
-                        else
-                        {
-                            audioService.ContinuePlayTrack();
-                        }
-                        _isTrackPlay = true;
-                    }
-                    else
-                    {
-                        audioService.PauseTrack();
-                        _isTrackPlay = false;
-                    }
-                }));
+                selectedMusic = value;
+                OnPropertyChanged();
             }
         }
 
-        public Command PrevTrackCommand
+        private uint duration;
+        public uint Duration
         {
-            get
+            get { return duration; }
+            set
             {
-                return _prevTrackCommand ?? (_prevTrackCommand = new Command(() =>
-                {
-                    audioService.PrevPlayTrack();
-                }));
+                duration = value;
+                OnPropertyChanged();
             }
         }
 
-        public Command NextTrackCommand
+        private TimeSpan position;
+        public TimeSpan Position
         {
-            get
+            get { return position; }
+            set
             {
-                return _nextTrackCommand ?? (_nextTrackCommand = new Command(() =>
+                position = value;
+                OnPropertyChanged();
+            }
+        }
+
+        double maximum = 100f;
+        public double Maximum
+        {
+            get { return maximum; }
+            set
+            {
+                if (value > 0)
                 {
-                    audioService.NextPlayTrack();
-                }));
+                    maximum = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private void PlayStopCommandExecute(object obj)
+        {
+            if (!IsPlaying)
+            {
+                if (!isFirstStart)
+                {
+                    audioService.StartPlayTrack();
+                    SelectedMusic = audioService.GetCurrentTrackModel();
+                    Duration = 5000;
+                    isFirstStart = true;
+
+                    Device.StartTimer(TimeSpan.FromMilliseconds(500), () =>
+                    {
+                        //Duration = new TimeSpan(0, 0, 5); //mediaInfo.Duration;
+                        Maximum = 0;//duration.TotalSeconds;
+                        Position = new TimeSpan(0, 0, 0); //mediaInfo.Position;
+                        return true;
+                    });
+                }
+                else
+                {
+                    audioService.ContinuePlayTrack();
+                }
+                IsPlaying = true;
+            }
+            else
+            {
+                audioService.PauseTrack();
+                IsPlaying = false;
+            }
+        }
+
+        private void NextTrackCommandExecute()
+        {
+            if (isFirstStart)
+            {
+                IsPlaying = false;
+                audioService.NextPlayTrack();
+                SelectedMusic = audioService.GetCurrentTrackModel();
+                IsPlaying = true;
+            }
+        }
+
+        private void PreviousTrackCommandExecute()
+        {
+            if (isFirstStart)
+            {
+                IsPlaying = false;
+                audioService.PrevPlayTrack();
+                SelectedMusic = audioService.GetCurrentTrackModel();
+                IsPlaying = true;
             }
         }
     }

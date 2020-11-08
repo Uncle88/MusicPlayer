@@ -1,4 +1,6 @@
 ﻿
+using MusicPlayer.Model;
+
 namespace MusicPlayer.Services.PlayService
 {
     public interface IPlayAudio
@@ -9,5 +11,7 @@ namespace MusicPlayer.Services.PlayService
 
         void NextPlayTrack();
         void PrevPlayTrack();
+
+        TrackModel GetCurrentTrackModel();
     }
 }

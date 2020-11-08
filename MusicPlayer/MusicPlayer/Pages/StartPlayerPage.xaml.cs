@@ -1,18 +1,40 @@
 ﻿
+using System;
+using System.Threading.Tasks;
+using MusicPlayer.PageModels;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace MusicPlayer.Pages
 {
-    public partial class StartPlayerPage : ContentPage
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class StartPlayerPage : BasePage
     {
         public StartPlayerPage()
         {
             InitializeComponent();
+            BindingContext = new StartPlayerPageModel();
+        }
 
-            double totalTime = 50000;
-            double startTime = 300;
-            var animation = new Animation(v => _bar.Progress = v, startTime / totalTime, 1, Easing.Linear);
-            animation.Commit(this, "LinearProgressFromTime", 16, (uint)(totalTime - startTime), Easing.Linear, (v, c) => _bar.Progress = 1, () => false);
+        async void ButtonTapped(System.Object sender, System.EventArgs e)
+        {
+            uint timeout = 3000;
+
+            if (playImage.IsPlaying || nextImage.IsPlaying || prevImage.IsPlaying)
+            {
+                animatedLabel.TranslationX = 0;
+                await image.RotateTo(0, 0);
+
+                await Task.WhenAll(
+                image.RotateTo(360, timeout, Easing.BounceIn),
+                animatedLabel.TranslateTo(-50, 0, timeout, Easing.Linear),
+                animatedLabel.TranslateTo(50, 0, timeout, Easing.Linear));
+            }
+            else
+            {
+                await image.RotateTo(0, 0);
+                animatedLabel.TranslationX = 0;
+            }
         }
     }
 }
