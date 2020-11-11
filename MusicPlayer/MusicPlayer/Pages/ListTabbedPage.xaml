@@ -2,6 +2,43 @@
 <page:BasePage  xmlns:page="clr-namespace:MusicPlayer.Pages"
                 xmlns="http://xamarin.com/schemas/2014/forms"
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:cell="clr-namespace:MusicPlayer.Cells" xmlns:customTriggers="clr-namespace:MusicPlayer.Triggers"
                 x:Class="MusicPlayer.Pages.ListTabbedPage">
-
+    <Grid ColumnSpacing="0" RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Button Grid.Row="0" Grid.Column="0" Command="{Binding TabSelectedCommand}" Style="{StaticResource TabButtonStyle}" Text="Artist" x:Name="_recoverButton" />
+        <BoxView Grid.Row="1" Grid.Column="0" Style="{StaticResource TabUnderLineBoxStyle}" BackgroundColor="#fffb660c" x:Name="_recoverBox" />
+        <Button Grid.Row="0" Grid.Column="1" Command="{Binding TabSelectedCommand}" Style="{StaticResource TabButtonStyle}" Text="Album" x:Name="_temporaryButton" />
+        <BoxView Grid.Row="1" Grid.Column="1" Style="{StaticResource TabUnderLineBoxStyle}" x:Name="_temporaryBox" />
+        <Button Grid.Row="0" Grid.Column="2" Command="{Binding TabSelectedCommand}" Style="{StaticResource TabButtonStyle}" Text="Genre" x:Name="_programsButton" />
+        <BoxView Grid.Row="1" Grid.Column="2" Style="{StaticResource TabUnderLineBoxStyle}" x:Name="_programsBox" />
+        <ListView Grid.Row="2" Grid.ColumnSpan="3"
+                  CachingStrategy="RecycleElement"
+                  ItemsSource="{Binding Items}"
+                  SelectedItem="{Binding CurrentItem}"
+                  RowHeight="110"
+                  SelectionMode="Single"
+                  SeparatorVisibility="None"
+                  SeparatorColor="Transparent">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <cell:TrackViewCell />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Triggers>
+                <EventTrigger Event="ItemSelected">
+                    <customTriggers:DeselectListViewItemAction />
+                </EventTrigger>
+            </ListView.Triggers>
+        </ListView>
+    </Grid>
 </page:BasePage>

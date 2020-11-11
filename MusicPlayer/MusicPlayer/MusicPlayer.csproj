@@ -27,6 +27,8 @@
     <Folder Include="Controls\" />
     <Folder Include="Pages\TabbedPages\" />
     <Folder Include="PageModels\TabbedPageModels\" />
+    <Folder Include="Cells\" />
+    <Folder Include="Triggers\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="stas.mp3" />

@@ -8,6 +8,27 @@
              x:Class="MusicPlayer.App">
     <Application.Resources>
         <ResourceDictionary>
+
+            <Style x:Key="TabButtonStyle" TargetType="Button">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="TextColor" Value="#ff4b4b4b" />
+                <Setter Property="Font">
+                    <Setter.Value>
+                        <OnPlatform x:TypeArguments="Font">
+                            <OnPlatform.iOS>Small</OnPlatform.iOS>
+                            <OnPlatform.Android>Micro</OnPlatform.Android>
+                        </OnPlatform>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="TabUnderLineBoxStyle" TargetType="BoxView">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="VerticalOptions" Value="End" />
+                <Setter Property="HeightRequest" Value="5" />
+            </Style>
+
             <converter:PlayPauseImageConverter x:Key="PlayPauseImageConverter" />
         </ResourceDictionary>
     </Application.Resources>

@@ -1,19 +1,25 @@
-﻿
-using FreshMvvm;
-using MusicPlayer.PageModels.TabbedPageModels;
+﻿using System.Collections.Generic;
+using MusicPlayer.Model;
+using MusicPlayer.Services.PlayService;
+using Xamarin.Forms;
 
 namespace MusicPlayer.PageModels
 {
     public class ListTabbedPageModel : BasePageModel
     {
+        private IPlayAudio audioService;
+        private IList<TrackModel> tracksList = new List<TrackModel>();
+
         public ListTabbedPageModel()
         {
-            var tabbedNavigationContainer = new FreshTabbedNavigationContainer();
-            tabbedNavigationContainer.AddTab<AlbumPageModel>("Album", "");
-            tabbedNavigationContainer.AddTab<ArtistPageModel>("Artist", "");
-            tabbedNavigationContainer.AddTab<GenrePageModel>("Genre", "");
-            this.CurrentPage = tabbedNavigationContainer;
+            audioService = DependencyService.Get<IPlayAudio>();
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
+
+            tracksList = audioService.GetTrackModelList();
         }
     }
 }
-

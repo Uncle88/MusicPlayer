@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using MusicPlayer.Model;
 using Xamarin.Forms;
 
@@ -34,6 +35,11 @@ namespace MusicPlayer.Services.PlayService
         public TrackModel GetCurrentTrackModel()
         {
             return DependencyService.Get<IPlayAudio>().GetCurrentTrackModel();
+        }
+
+        public List<TrackModel> GetTrackModelList()
+        {
+            return DependencyService.Get<IPlayAudio>().GetTrackModelList();
         }
     }
 }

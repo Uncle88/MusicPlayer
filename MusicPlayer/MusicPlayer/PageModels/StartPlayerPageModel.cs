@@ -19,11 +19,6 @@ namespace MusicPlayer.PageModels
         public ICommand PreviousTrackCommand => new Command(PreviousTrackCommandExecute);
         public ICommand OpenTabbedPageCommand => new Command(OpenTabbedPageCommandExecute);
 
-        private async void OpenTabbedPageCommandExecute()
-        {
-            await CoreMethods.PushPageModel<ListTabbedPageModel>();
-        }
-
         public bool IsPlaying { get; set; }
 
         public StartPlayerPageModel()
@@ -130,6 +125,11 @@ namespace MusicPlayer.PageModels
                 SelectedMusic = audioService.GetCurrentTrackModel();
                 IsPlaying = true;
             }
+        }
+
+        private async void OpenTabbedPageCommandExecute()
+        {
+            await CoreMethods.PushPageModel<ListTabbedPageModel>();
         }
     }
 }
