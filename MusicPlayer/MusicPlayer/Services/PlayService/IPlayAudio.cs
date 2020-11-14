@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using MusicPlayer.Model;
 
 namespace MusicPlayer.Services.PlayService
@@ -13,5 +14,6 @@ namespace MusicPlayer.Services.PlayService
         void PrevPlayTrack();
 
         TrackModel GetCurrentTrackModel();
+        List<TrackModel> GetTrackModelList();
     }
 }

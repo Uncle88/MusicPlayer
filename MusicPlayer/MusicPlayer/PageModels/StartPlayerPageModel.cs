@@ -17,6 +17,8 @@ namespace MusicPlayer.PageModels
         public ICommand PlayStopCommand => new Command(PlayStopCommandExecute);
         public ICommand NextTrackCommand => new Command(NextTrackCommandExecute);
         public ICommand PreviousTrackCommand => new Command(PreviousTrackCommandExecute);
+        public ICommand OpenTabbedPageCommand => new Command(OpenTabbedPageCommandExecute);
+
         public bool IsPlaying { get; set; }
 
         public StartPlayerPageModel()
@@ -123,6 +125,11 @@ namespace MusicPlayer.PageModels
                 SelectedMusic = audioService.GetCurrentTrackModel();
                 IsPlaying = true;
             }
+        }
+
+        private async void OpenTabbedPageCommandExecute()
+        {
+            await CoreMethods.PushPageModel<ListTabbedPageModel>();
         }
     }
 }

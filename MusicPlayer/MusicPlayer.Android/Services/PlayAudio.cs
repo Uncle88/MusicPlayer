@@ -23,13 +23,15 @@ namespace MusicPlayer.Droid.Services
             mediaPlayer = new MediaPlayer();
             context = Android.App.Application.Context;
             trackModels = new List<TrackModel>();
+
+            trackModels = GetTracksFromRoot(GetMusicDirectory());
         }
 
         [System.Obsolete]
         public void StartPlayTrack()
 		{
-            var directoryPath = GetMusicDirectory();
-            trackModels = GetTrackModelsList(directoryPath);
+            //var directoryPath = GetMusicDirectory();
+            //trackModels = GetTracksFromRoot(directoryPath);
             currentTrack = trackModels[0];
             Uri uri = Uri.Parse(currentTrack.Path);
 
@@ -85,6 +87,11 @@ namespace MusicPlayer.Droid.Services
             return currentTrack;
         }
 
+        public List<TrackModel> GetTrackModelList()
+        {
+            return trackModels;
+        }
+
         private string[] GetMusicDirectory()
 		{
 			string directoryDownloadsPath = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, Android.OS.Environment.DirectoryDownloads);
@@ -92,7 +99,7 @@ namespace MusicPlayer.Droid.Services
             return Directory.GetFiles(directoryDownloadsPath);
         }
 
-        private List<TrackModel> GetTrackModelsList(string[] directoriesPathArray)
+        private List<TrackModel> GetTracksFromRoot(string[] directoriesPathArray)
         {
             foreach (string musicFilePath in directoriesPathArray)
             {
@@ -105,6 +112,7 @@ namespace MusicPlayer.Droid.Services
                     Title = mmr.ExtractMetadata(MetadataKey.Title),
                     Artist = mmr.ExtractMetadata(MetadataKey.Artist),
                     Genre = mmr.ExtractMetadata(MetadataKey.Genre),
+                    Duration = mmr.ExtractMetadata(MetadataKey.Duration),
                     Path = musicFilePath
                 });
             }
