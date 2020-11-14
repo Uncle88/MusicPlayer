@@ -17,7 +17,7 @@
         </Grid.ColumnDefinitions>
         <Button Grid.Row="0"
                 Grid.Column="0"
-                Command="{Binding TabSelectedCommand}"
+                Command="{Binding SelectedArtistTabCommand}"
                 Style="{StaticResource TabButtonStyle}"
                 Text="Artist"
                 x:Name="_artistButton" />
@@ -30,7 +30,7 @@
 
         <Button Grid.Row="0"
                 Grid.Column="1"
-                Command="{Binding TabSelectedCommand}"
+                Command="{Binding SelectedAlbumTabCommand}"
                 Style="{StaticResource TabButtonStyle}"
                 Text="Album"
                 x:Name="_albumButton" />
@@ -42,7 +42,7 @@
 
         <Button Grid.Row="0"
                 Grid.Column="2"
-                Command="{Binding TabSelectedCommand}"
+                Command="{Binding SelectedGenreTabCommand}"
                 Style="{StaticResource TabButtonStyle}"
                 Text="Genre"
                 x:Name="_genresButton" />
