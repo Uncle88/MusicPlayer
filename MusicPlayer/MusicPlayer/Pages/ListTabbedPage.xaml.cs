@@ -12,41 +12,41 @@ namespace MusicPlayer.Pages
         public ListTabbedPage()
         {
             InitializeComponent();
-            _recoverButton.Clicked += _recoverButton_Clicked;
-            _temporaryButton.Clicked += _temporaryButton_Clicked;
-            _programsButton.Clicked += _programsButton_Clicked;
+            _artistButton.Clicked += _recoverButton_Clicked;
+            _albumButton.Clicked += _temporaryButton_Clicked;
+            _genresButton.Clicked += _programsButton_Clicked;
         }
 
         private void _programsButton_Clicked(object sender, EventArgs e)
         {
             ClearStates();
-            _programsBox.BackgroundColor = ActiveTabColor;
-            _programsButton.TextColor = ActiveTabColor;
+            _genresBox.BackgroundColor = ActiveTabColor;
+            _genresButton.TextColor = ActiveTabColor;
         }
 
         private void _temporaryButton_Clicked(object sender, EventArgs e)
         {
             ClearStates();
-            _temporaryBox.BackgroundColor = ActiveTabColor;
-            _temporaryButton.TextColor = ActiveTabColor;
+            _albumBox.BackgroundColor = ActiveTabColor;
+            _albumButton.TextColor = ActiveTabColor;
         }
 
         private void _recoverButton_Clicked(object sender, EventArgs e)
         {
             ClearStates();
-            _recoverBox.BackgroundColor = ActiveTabColor;
-            _recoverButton.TextColor = ActiveTabColor;
+            _artistBox.BackgroundColor = ActiveTabColor;
+            _artistButton.TextColor = ActiveTabColor;
         }
 
         private void ClearStates()
         {
-            _temporaryBox.BackgroundColor = Color.White;
-            _programsBox.BackgroundColor = Color.White;
-            _recoverBox.BackgroundColor = Color.White;
+            _albumBox.BackgroundColor = Color.White;
+            _genresBox.BackgroundColor = Color.White;
+            _artistBox.BackgroundColor = Color.White;
 
-            _temporaryButton.TextColor = DefaultTabTextColor;
-            _programsButton.TextColor = DefaultTabTextColor;
-            _recoverButton.TextColor = DefaultTabTextColor;
+            _albumButton.TextColor = DefaultTabTextColor;
+            _genresButton.TextColor = DefaultTabTextColor;
+            _artistButton.TextColor = DefaultTabTextColor;
         }
     }
 }

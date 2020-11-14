@@ -20,37 +20,37 @@
                 Command="{Binding TabSelectedCommand}"
                 Style="{StaticResource TabButtonStyle}"
                 Text="Artist"
-                x:Name="_recoverButton" />
+                x:Name="_artistButton" />
 
         <BoxView Grid.Row="1"
                  Grid.Column="0"
                  Style="{StaticResource TabUnderLineBoxStyle}"
                  BackgroundColor="#fffb660c"
-                 x:Name="_recoverBox" />
+                 x:Name="_artistBox" />
 
         <Button Grid.Row="0"
                 Grid.Column="1"
                 Command="{Binding TabSelectedCommand}"
                 Style="{StaticResource TabButtonStyle}"
                 Text="Album"
-                x:Name="_temporaryButton" />
+                x:Name="_albumButton" />
 
         <BoxView Grid.Row="1"
                  Grid.Column="1"
                  Style="{StaticResource TabUnderLineBoxStyle}"
-                 x:Name="_temporaryBox" />
+                 x:Name="_albumBox" />
 
         <Button Grid.Row="0"
                 Grid.Column="2"
                 Command="{Binding TabSelectedCommand}"
                 Style="{StaticResource TabButtonStyle}"
                 Text="Genre"
-                x:Name="_programsButton" />
+                x:Name="_genresButton" />
 
         <BoxView Grid.Row="1"
                  Grid.Column="2"
                  Style="{StaticResource TabUnderLineBoxStyle}"
-                 x:Name="_programsBox" />
+                 x:Name="_genresBox" />
 
         <ListView Grid.Row="2" Grid.ColumnSpan="3"
                   CachingStrategy="RecycleElement"
