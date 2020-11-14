@@ -25,8 +25,6 @@
     <Folder Include="Converters\" />
     <Folder Include="Model\" />
     <Folder Include="Controls\" />
-    <Folder Include="Pages\TabbedPages\" />
-    <Folder Include="PageModels\TabbedPageModels\" />
     <Folder Include="Cells\" />
     <Folder Include="Triggers\" />
   </ItemGroup>

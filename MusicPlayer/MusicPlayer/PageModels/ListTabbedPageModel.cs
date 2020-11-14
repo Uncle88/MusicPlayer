@@ -8,18 +8,21 @@ namespace MusicPlayer.PageModels
     public class ListTabbedPageModel : BasePageModel
     {
         private IPlayAudio audioService;
-        private IList<TrackModel> tracksList = new List<TrackModel>();
+        private List<TrackModel> tracksList = new List<TrackModel>();
+
+        public List<TrackModel> Items { get; set; }
 
         public ListTabbedPageModel()
         {
             audioService = DependencyService.Get<IPlayAudio>();
+            Items = tracksList = audioService.GetTrackModelList();
         }
 
         public override void Initialize()
         {
             base.Initialize();
 
-            tracksList = audioService.GetTrackModelList();
+            
         }
     }
 }

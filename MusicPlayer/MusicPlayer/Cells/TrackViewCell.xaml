@@ -3,5 +3,47 @@
           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
           x:Class="MusicPlayer.Cells.TrackViewCell">
 
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
+        <Image Grid.Column="0"
+               Source="melody.png"
+               HeightRequest="20"
+               WidthRequest="20"
+               VerticalOptions="Center"
+               HorizontalOptions="Center" />
+
+        <StackLayout Grid.Column="1"
+                     Orientation="Vertical">
+
+            <Label Text="{Binding Title}"
+                   HorizontalOptions="Start"
+                   VerticalOptions="Center"
+                   FontSize="14"
+                   TextColor="Black" />
+
+            <Label Text="{Binding Title}"
+                   HorizontalOptions="Start"
+                   VerticalOptions="End"
+                   FontSize="10"
+                   TextColor="Gray" />
+        </StackLayout>
+
+        <Label Grid.Column="2"
+               Text="{Binding Duration, StringFormat='{0:mm\\:ss}'}"
+               TextColor="Black"
+               FontSize="12"
+               HorizontalOptions="Center"
+               VerticalOptions="Center" />
+
+        <BoxView HeightRequest="1"
+                 Color="Black"
+                 Grid.ColumnSpan="3"
+                 HorizontalOptions="FillAndExpand"
+                 VerticalOptions="End" />
+    </Grid>
 </ViewCell>

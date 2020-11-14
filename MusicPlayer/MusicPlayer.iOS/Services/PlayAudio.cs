@@ -59,5 +59,10 @@ namespace MusicPlayer.iOS.Services
         public void NextPlayTrack()
         {
         }
+
+        public List<TrackModel> GetTrackModelList()
+        {
+            return new List<TrackModel>();
+        }
     }
 }
