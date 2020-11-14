@@ -15,12 +15,43 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Button Grid.Row="0" Grid.Column="0" Command="{Binding TabSelectedCommand}" Style="{StaticResource TabButtonStyle}" Text="Artist" x:Name="_recoverButton" />
-        <BoxView Grid.Row="1" Grid.Column="0" Style="{StaticResource TabUnderLineBoxStyle}" BackgroundColor="#fffb660c" x:Name="_recoverBox" />
-        <Button Grid.Row="0" Grid.Column="1" Command="{Binding TabSelectedCommand}" Style="{StaticResource TabButtonStyle}" Text="Album" x:Name="_temporaryButton" />
-        <BoxView Grid.Row="1" Grid.Column="1" Style="{StaticResource TabUnderLineBoxStyle}" x:Name="_temporaryBox" />
-        <Button Grid.Row="0" Grid.Column="2" Command="{Binding TabSelectedCommand}" Style="{StaticResource TabButtonStyle}" Text="Genre" x:Name="_programsButton" />
-        <BoxView Grid.Row="1" Grid.Column="2" Style="{StaticResource TabUnderLineBoxStyle}" x:Name="_programsBox" />
+        <Button Grid.Row="0"
+                Grid.Column="0"
+                Command="{Binding TabSelectedCommand}"
+                Style="{StaticResource TabButtonStyle}"
+                Text="Artist"
+                x:Name="_recoverButton" />
+
+        <BoxView Grid.Row="1"
+                 Grid.Column="0"
+                 Style="{StaticResource TabUnderLineBoxStyle}"
+                 BackgroundColor="#fffb660c"
+                 x:Name="_recoverBox" />
+
+        <Button Grid.Row="0"
+                Grid.Column="1"
+                Command="{Binding TabSelectedCommand}"
+                Style="{StaticResource TabButtonStyle}"
+                Text="Album"
+                x:Name="_temporaryButton" />
+
+        <BoxView Grid.Row="1"
+                 Grid.Column="1"
+                 Style="{StaticResource TabUnderLineBoxStyle}"
+                 x:Name="_temporaryBox" />
+
+        <Button Grid.Row="0"
+                Grid.Column="2"
+                Command="{Binding TabSelectedCommand}"
+                Style="{StaticResource TabButtonStyle}"
+                Text="Genre"
+                x:Name="_programsButton" />
+
+        <BoxView Grid.Row="1"
+                 Grid.Column="2"
+                 Style="{StaticResource TabUnderLineBoxStyle}"
+                 x:Name="_programsBox" />
+
         <ListView Grid.Row="2" Grid.ColumnSpan="3"
                   CachingStrategy="RecycleElement"
                   ItemsSource="{Binding Items}"
@@ -40,5 +71,6 @@
                 </EventTrigger>
             </ListView.Triggers>
         </ListView>
+
     </Grid>
 </page:BasePage>

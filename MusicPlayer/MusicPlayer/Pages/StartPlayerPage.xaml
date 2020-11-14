@@ -48,11 +48,11 @@
                         </view:GradientStopCollection>
                     </view:PancakeView.BackgroundGradientStops>
                     <view:PancakeView.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding BackCommand}"/>
+                        <TapGestureRecognizer Command="{Binding VolumeCommand}"/>
                     </view:PancakeView.GestureRecognizers>
-                    <Image Source="back.png"
-                           HeightRequest="15"
-                           WidthRequest="15"
+                    <Image Source="volume.png"
+                           HeightRequest="20"
+                           WidthRequest="20"
                            HorizontalOptions="Center"
                            VerticalOptions="Center"/>
                 </view:PancakeView>
@@ -83,9 +83,9 @@
                     <view:PancakeView.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding OpenTabbedPageCommand}"/>
                     </view:PancakeView.GestureRecognizers>
-                    <Image Source="share.png"
-                           HeightRequest="15"
-                           WidthRequest="15"
+                    <Image Source="menu.png"
+                           HeightRequest="35"
+                           WidthRequest="35"
                            HorizontalOptions="Center"
                            VerticalOptions="Center"/>
                 </view:PancakeView>
