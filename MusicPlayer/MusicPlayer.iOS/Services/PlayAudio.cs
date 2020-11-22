@@ -64,5 +64,10 @@ namespace MusicPlayer.iOS.Services
         {
             return new List<TrackModel>();
         }
+
+        public void StartPlayTrack(TrackModel model)
+        {
+            
+        }
     }
 }

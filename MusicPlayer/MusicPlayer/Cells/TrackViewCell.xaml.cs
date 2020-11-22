@@ -2,7 +2,7 @@
 
 namespace MusicPlayer.Cells
 {
-    public partial class TrackViewCell : ViewCell
+    public partial class TrackViewCell : BaseViewCell
     {
         public TrackViewCell()
         {

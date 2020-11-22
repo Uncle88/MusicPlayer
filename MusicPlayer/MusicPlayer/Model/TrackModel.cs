@@ -10,5 +10,6 @@ namespace MusicPlayer.Model
         public string Url { get; set; }
         public string Path { get; set; }
         public string Duration { get; set; }
+        public string Position { get; set; }
     }
 }

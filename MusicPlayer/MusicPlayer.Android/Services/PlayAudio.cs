@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using Android.Content;
 using Android.Media;
@@ -38,9 +37,10 @@ namespace MusicPlayer.Droid.Services
             SetPlayerSourse(uri);
         }
 
-        private void StartPlayTrack(TrackModel model)
+        public void StartPlayTrack(TrackModel model)
         {
             mediaPlayer = new MediaPlayer();
+            currentTrack = model;
             Uri uri = Uri.Parse(model.Path);
 
             SetPlayerSourse(uri);
@@ -112,6 +112,7 @@ namespace MusicPlayer.Droid.Services
                     Title = mmr.ExtractMetadata(MetadataKey.Title),
                     Artist = mmr.ExtractMetadata(MetadataKey.Artist),
                     Genre = mmr.ExtractMetadata(MetadataKey.Genre),
+                    Position = mmr.ExtractMetadata(MetadataKey.Bitrate),
                     Duration = mmr.ExtractMetadata(MetadataKey.Duration),
                     Path = musicFilePath
                 });

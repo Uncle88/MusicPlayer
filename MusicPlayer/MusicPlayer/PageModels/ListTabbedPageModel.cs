@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using MusicPlayer.Model;
 using MusicPlayer.Services.PlayService;
 using Xamarin.Forms;
@@ -12,17 +16,40 @@ namespace MusicPlayer.PageModels
 
         public List<TrackModel> Items { get; set; }
 
+        public ICommand SelectedArtistTabCommand => new Command(SelectedArtistTabCommandExecute);
+        public ICommand SelectedAlbumTabCommand => new Command(SelectedAlbumTabCommandExecute);
+        public ICommand SelectedGenreTabCommand => new Command(SelectedGenreTabCommandExecute);
+        public ICommand SelectedTrackFromListCommand => new Command(async param => await SelectedTrackFromListCommandExecuteAsync(param));
+
         public ListTabbedPageModel()
         {
             audioService = DependencyService.Get<IPlayAudio>();
-            Items = tracksList = audioService.GetTrackModelList();
+            tracksList = audioService.GetTrackModelList();
+
+            Items = tracksList.OrderBy(x => x.Artist).ToList();
         }
 
-        public override void Initialize()
+        private void SelectedArtistTabCommandExecute()
         {
-            base.Initialize();
+            Items = tracksList.OrderBy(x => x.Artist).ToList();
+        }
 
-            
+        private void SelectedAlbumTabCommandExecute()
+        {
+            Items = tracksList.OrderBy(x => x.Album).ToList();
+        }
+
+        private void SelectedGenreTabCommandExecute()
+        {
+            Items = tracksList.OrderBy(x => x.Genre).ToList();
+        }
+
+        private async Task SelectedTrackFromListCommandExecuteAsync(object param)
+        {
+            if (param is TrackModel model)
+            {
+                await CoreMethods.PushPageModel<StartPlayerPageModel>(model);
+            }
         }
     }
 }
