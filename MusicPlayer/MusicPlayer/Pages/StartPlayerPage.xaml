@@ -150,14 +150,14 @@
                             MaximumTrackColor="#C0C8D4"
                             ThumbColor="#D4420C"
                             Value="{Binding Position.TotalSeconds}"
-                            Maximum="{Binding Maximum}"
+                            Maximum="100"
                             HorizontalOptions="FillAndExpand"/>
                     <Grid HorizontalOptions="FillAndExpand">
                         <Label Text="{Binding Position, StringFormat='{0:mm\\:ss}'}"
                                FontSize="12"
                                HorizontalOptions="Start"
                                VerticalOptions="Center"/>
-                        <Label Text="{Binding Duration, StringFormat='{0:mm\\:ss}'}"
+                        <Label Text="{Binding Duration}"
                                FontSize="12"
                                HorizontalOptions="End"
                                VerticalOptions="Center"/>

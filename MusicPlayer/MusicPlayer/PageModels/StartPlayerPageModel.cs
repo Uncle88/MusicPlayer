@@ -26,6 +26,21 @@ namespace MusicPlayer.PageModels
             audioService = DependencyService.Get<IPlayAudio>();
         }
 
+        public StartPlayerPageModel(TrackModel model)
+        {
+            if (audioService == null)
+            {
+                audioService = DependencyService.Get<IPlayAudio>();
+            }
+
+            if (model.Path != null)
+            {
+                audioService.StartPlayTrack(model);
+            }
+        }
+
+        public string Duration { get; set; }
+
         private TrackModel selectedMusic;
         public TrackModel SelectedMusic
         {
@@ -33,17 +48,6 @@ namespace MusicPlayer.PageModels
             set
             {
                 selectedMusic = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private uint duration;
-        public uint Duration
-        {
-            get { return duration; }
-            set
-            {
-                duration = value;
                 OnPropertyChanged();
             }
         }
@@ -59,20 +63,6 @@ namespace MusicPlayer.PageModels
             }
         }
 
-        double maximum = 100f;
-        public double Maximum
-        {
-            get { return maximum; }
-            set
-            {
-                if (value > 0)
-                {
-                    maximum = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         private void PlayStopCommandExecute(object obj)
         {
             if (!IsPlaying)
@@ -81,16 +71,8 @@ namespace MusicPlayer.PageModels
                 {
                     audioService.StartPlayTrack();
                     SelectedMusic = audioService.GetCurrentTrackModel();
-                    Duration = 5000;
                     isFirstStart = true;
-
-                    Device.StartTimer(TimeSpan.FromMilliseconds(500), () =>
-                    {
-                        //Duration = new TimeSpan(0, 0, 5); //mediaInfo.Duration;
-                        Maximum = 0;//duration.TotalSeconds;
-                        Position = new TimeSpan(0, 0, 0); //mediaInfo.Position;
-                        return true;
-                    });
+                    StartTrackTimer(SelectedMusic);
                 }
                 else
                 {
@@ -112,6 +94,7 @@ namespace MusicPlayer.PageModels
                 IsPlaying = false;
                 audioService.NextPlayTrack();
                 SelectedMusic = audioService.GetCurrentTrackModel();
+                StartTrackTimer(SelectedMusic);
                 IsPlaying = true;
             }
         }
@@ -123,8 +106,36 @@ namespace MusicPlayer.PageModels
                 IsPlaying = false;
                 audioService.PrevPlayTrack();
                 SelectedMusic = audioService.GetCurrentTrackModel();
+                StartTrackTimer(SelectedMusic);
                 IsPlaying = true;
             }
+        }
+
+        private void StartTrackTimer(TrackModel selectedMusic)
+        {
+            Duration = SecondsToMinutes(selectedMusic.Duration);
+
+            Device.StartTimer(TimeSpan.FromSeconds(500), () =>
+            {
+                Position = TimeSpan.Parse(selectedMusic.Position);
+                return true;
+            });
+        }
+
+        public static string SecondsToMinutes(string duration)
+        {
+            int millSecond = int.Parse(duration);
+            int hours, minutes, seconds = millSecond / 1000;
+
+            hours = (seconds / 3600);
+            minutes = (seconds / 60) % 60;
+            seconds = seconds % 60;
+
+            if (hours == 0)
+            {
+                return string.Format("{0, 0:d2}:{1, 0:d2}", minutes, seconds);
+            }
+            return string.Format("{0, 0:d2}:{1, 0:d2}:{2, 0:d2}", hours, minutes, seconds);
         }
 
         private async void OpenTabbedPageCommandExecute()

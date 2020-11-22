@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ViewCell xmlns="http://xamarin.com/schemas/2014/forms"
-          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-          x:Class="MusicPlayer.Cells.TrackViewCell"
-          x:Name="Self">
-
+<cells:BaseViewCell  xmlns:cells="clr-namespace:MusicPlayer.Cells"
+                     xmlns="http://xamarin.com/schemas/2014/forms"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                     x:Class="MusicPlayer.Cells.TrackViewCell"
+                     x:Name="Self">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -50,7 +50,7 @@
 
         <Grid.GestureRecognizers>
             <TapGestureRecognizer Command="{Binding ParentBindingContext.SelectedTrackFromListCommand, Source={x:Reference Self}}"
-                                  CommandParameter="{Binding}"/>
+                                  CommandParameter="{Binding .}"/>
         </Grid.GestureRecognizers>
     </Grid>
-</ViewCell>
+</cells:BaseViewCell>

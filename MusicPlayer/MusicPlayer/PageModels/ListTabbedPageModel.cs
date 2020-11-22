@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using MusicPlayer.Model;
 using MusicPlayer.Services.PlayService;
@@ -18,7 +19,7 @@ namespace MusicPlayer.PageModels
         public ICommand SelectedArtistTabCommand => new Command(SelectedArtistTabCommandExecute);
         public ICommand SelectedAlbumTabCommand => new Command(SelectedAlbumTabCommandExecute);
         public ICommand SelectedGenreTabCommand => new Command(SelectedGenreTabCommandExecute);
-        public ICommand SelectedTrackFromListCommand = new Command(SelectedTrackFromListCommandExecute);
+        public ICommand SelectedTrackFromListCommand => new Command(async param => await SelectedTrackFromListCommandExecuteAsync(param));
 
         public ListTabbedPageModel()
         {
@@ -43,8 +44,12 @@ namespace MusicPlayer.PageModels
             Items = tracksList.OrderBy(x => x.Genre).ToList();
         }
 
-        private static void SelectedTrackFromListCommandExecute()
+        private async Task SelectedTrackFromListCommandExecuteAsync(object param)
         {
+            if (param is TrackModel model)
+            {
+                await CoreMethods.PushPageModel<StartPlayerPageModel>(model);
+            }
         }
     }
 }
