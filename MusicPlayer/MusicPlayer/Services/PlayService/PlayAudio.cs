@@ -22,6 +22,11 @@ namespace MusicPlayer.Services.PlayService
             DependencyService.Get<IPlayAudio>().PauseTrack();
         }
 
+        public void StopTrack()
+        {
+            DependencyService.Get<IPlayAudio>().StopTrack();
+        }
+
         public void ContinuePlayTrack()
         {
             DependencyService.Get<IPlayAudio>().ContinuePlayTrack();

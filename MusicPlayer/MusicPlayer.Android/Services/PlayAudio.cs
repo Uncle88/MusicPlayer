@@ -56,6 +56,11 @@ namespace MusicPlayer.Droid.Services
             mediaPlayer?.Pause();
         }
 
+        public void StopTrack()
+        {
+            mediaPlayer?.Stop();
+        }
+
         public void NextPlayTrack()
         {
             ResetPlayer();

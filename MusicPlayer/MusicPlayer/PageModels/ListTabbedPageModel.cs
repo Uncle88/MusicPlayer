@@ -48,7 +48,7 @@ namespace MusicPlayer.PageModels
         {
             if (param is TrackModel model)
             {
-                await CoreMethods.PushPageModel<StartPlayerPageModel>(model);
+                await CoreMethods.PopPageModel(model);
             }
         }
     }

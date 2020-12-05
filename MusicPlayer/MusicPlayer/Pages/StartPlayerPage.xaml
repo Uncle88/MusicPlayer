@@ -153,7 +153,7 @@
                             Maximum="100"
                             HorizontalOptions="FillAndExpand"/>
                     <Grid HorizontalOptions="FillAndExpand">
-                        <Label Text="{Binding Position, StringFormat='{0:mm\\:ss}'}"
+                        <Label Text="{Binding Position}"
                                FontSize="12"
                                HorizontalOptions="Start"
                                VerticalOptions="Center"/>

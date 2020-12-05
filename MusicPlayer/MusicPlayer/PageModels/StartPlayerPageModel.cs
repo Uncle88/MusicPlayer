@@ -23,19 +23,30 @@ namespace MusicPlayer.PageModels
 
         public StartPlayerPageModel()
         {
-            audioService = DependencyService.Get<IPlayAudio>();
-        }
-
-        public StartPlayerPageModel(TrackModel model)
-        {
-            if (audioService == null)
+            try
             {
                 audioService = DependencyService.Get<IPlayAudio>();
             }
-
-            if (model.Path != null)
+            catch (Exception ex)
             {
+
+            }
+        }
+
+        public override void ReverseInit(object returnedData)
+        {
+            if (returnedData is TrackModel model)
+            {
+                if (IsPlaying)
+                {
+                    IsPlaying = false;
+                    audioService.StopTrack();
+                }
+
                 audioService.StartPlayTrack(model);
+                SelectedMusic = model;
+                StartTrackTimer(SelectedMusic);
+                IsPlaying = true;
             }
         }
 
@@ -52,8 +63,8 @@ namespace MusicPlayer.PageModels
             }
         }
 
-        private TimeSpan position;
-        public TimeSpan Position
+        private int position;
+        public int Position
         {
             get { return position; }
             set
@@ -89,6 +100,7 @@ namespace MusicPlayer.PageModels
 
         private void NextTrackCommandExecute()
         {
+            Position = 0;
             if (isFirstStart)
             {
                 IsPlaying = false;
@@ -101,6 +113,7 @@ namespace MusicPlayer.PageModels
 
         private void PreviousTrackCommandExecute()
         {
+            Position = 0;
             if (isFirstStart)
             {
                 IsPlaying = false;
@@ -114,10 +127,10 @@ namespace MusicPlayer.PageModels
         private void StartTrackTimer(TrackModel selectedMusic)
         {
             Duration = SecondsToMinutes(selectedMusic.Duration);
+            Position = TimeSpan.Parse(selectedMusic.Duration).Seconds;
 
-            Device.StartTimer(TimeSpan.FromSeconds(500), () =>
+            Device.StartTimer(TimeSpan.FromSeconds(1), () =>
             {
-                Position = TimeSpan.Parse(selectedMusic.Position);
                 return true;
             });
         }

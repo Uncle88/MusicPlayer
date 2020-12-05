@@ -10,6 +10,7 @@ namespace MusicPlayer.Services.PlayService
         void StartPlayTrack(TrackModel model);
         void ContinuePlayTrack();
         void PauseTrack();
+        void StopTrack();
 
         void NextPlayTrack();
         void PrevPlayTrack();

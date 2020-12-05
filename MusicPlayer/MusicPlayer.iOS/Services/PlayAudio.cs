@@ -69,5 +69,10 @@ namespace MusicPlayer.iOS.Services
         {
             
         }
+
+        public void StopTrack()
+        {
+            _mediaPlayer?.Stop();
+        }
     }
 }
