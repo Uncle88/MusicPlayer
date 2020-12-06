@@ -1,7 +1,6 @@
 ﻿
 using FreshMvvm;
 using MusicPlayer.PageModels;
-using MusicPlayer.Pages;
 using MusicPlayer.Services.PlayService;
 using Xamarin.Forms;
 

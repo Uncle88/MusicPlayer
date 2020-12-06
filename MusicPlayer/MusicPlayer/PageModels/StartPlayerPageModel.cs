@@ -23,14 +23,7 @@ namespace MusicPlayer.PageModels
 
         public StartPlayerPageModel()
         {
-            try
-            {
-                audioService = DependencyService.Get<IPlayAudio>();
-            }
-            catch (Exception ex)
-            {
-
-            }
+            audioService = DependencyService.Get<IPlayAudio>();
         }
 
         public override void ReverseInit(object returnedData)
