@@ -126,11 +126,9 @@
                         <Label Text="{Binding SelectedMusic.Title}"
                                TextColor="Black"
                                FontSize="25"
-                               x:Name="animatedLabel"
-                               LineBreakMode="NoWrap"
-                               TranslationX="360"
-                               HorizontalOptions="Fill"
-                               HorizontalTextAlignment="Center"/>
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"
+                               Margin="15,0"/>
                     </ScrollView>
                         <Label Text="{Binding SelectedMusic.Artist}"
                                TextColor="Black"

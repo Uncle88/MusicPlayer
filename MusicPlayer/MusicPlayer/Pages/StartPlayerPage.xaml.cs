@@ -21,18 +21,13 @@ namespace MusicPlayer.Pages
 
             if (playImage.IsPlaying || nextImage.IsPlaying || prevImage.IsPlaying)
             {
-                animatedLabel.TranslationX = 0;
                 await image.RotateTo(0, 0);
 
-                await Task.WhenAll(
-                image.RotateTo(360, timeout, Easing.BounceIn),
-                animatedLabel.TranslateTo(-50, 0, timeout, Easing.Linear),
-                animatedLabel.TranslateTo(50, 0, timeout, Easing.Linear));
+                await image.RotateTo(360, timeout, Easing.BounceIn);
             }
             else
             {
                 await image.RotateTo(0, 0);
-                animatedLabel.TranslationX = 0;
             }
         }
     }
