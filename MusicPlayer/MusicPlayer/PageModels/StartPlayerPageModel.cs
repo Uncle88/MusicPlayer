@@ -18,7 +18,9 @@ namespace MusicPlayer.PageModels
         public ICommand NextTrackCommand => new Command(NextTrackCommandExecute);
         public ICommand PreviousTrackCommand => new Command(PreviousTrackCommandExecute);
         public ICommand OpenTabbedPageCommand => new Command(OpenTabbedPageCommandExecute);
+        public ICommand VolumeCommand => new Command(VolumeCommandExecute);
 
+        public bool IsVolume { get; set; }
         public bool IsPlaying { get; set; }
 
         public StartPlayerPageModel()
@@ -147,6 +149,20 @@ namespace MusicPlayer.PageModels
         private async void OpenTabbedPageCommandExecute()
         {
             await CoreMethods.PushPageModel<ListTabbedPageModel>();
+        }
+
+        private void VolumeCommandExecute()
+        {
+            if (IsVolume)
+            {
+                audioService.SetVolume(false);
+            }
+            else
+            {
+                audioService.SetVolume(true);
+            }
+
+            IsVolume = !IsVolume;
         }
     }
 }

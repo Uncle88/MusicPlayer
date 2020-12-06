@@ -171,5 +171,17 @@ namespace MusicPlayer.Droid.Services
             mediaPlayer.Prepare();
             mediaPlayer.Start();
         }
+
+        public void SetVolume(bool isUp)
+        {
+            if (isUp)
+            {
+                mediaPlayer?.SetVolume(0, 0);
+            }
+            else
+            {
+                mediaPlayer?.SetVolume(1, 1);
+            }
+        }
     }
 }

@@ -51,5 +51,10 @@ namespace MusicPlayer.Services.PlayService
         {
             return DependencyService.Get<IPlayAudio>().GetTrackModelList();
         }
+
+        public void SetVolume(bool level)
+        {
+            DependencyService.Get<IPlayAudio>().SetVolume(level);
+        }
     }
 }

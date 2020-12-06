@@ -6000,7 +6000,10 @@ namespace MusicPlayer.Droid
 			public const int tooltip_frame_light = 2131165309;
 			
 			// aapt resource value: 0x7F07007E
-			public const int volume = 2131165310;
+			public const int volumeDisable = 2131165310;
+			
+			// aapt resource value: 0x7F07007F
+			public const int volumeEnable = 2131165311;
 			
 			static Drawable()
 			{

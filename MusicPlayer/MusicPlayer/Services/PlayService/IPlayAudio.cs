@@ -17,5 +17,7 @@ namespace MusicPlayer.Services.PlayService
 
         TrackModel GetCurrentTrackModel();
         List<TrackModel> GetTrackModelList();
+
+        void SetVolume(bool level);
     }
 }

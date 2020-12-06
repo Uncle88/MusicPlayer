@@ -50,7 +50,7 @@
                     <view:PancakeView.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding VolumeCommand}"/>
                     </view:PancakeView.GestureRecognizers>
-                    <Image Source="volume.png"
+                    <Image Source="{Binding IsVolume, Converter={StaticResource VolumeImageConverter}}"
                            HeightRequest="20"
                            WidthRequest="20"
                            HorizontalOptions="Center"
