@@ -18,7 +18,9 @@ namespace MusicPlayer.PageModels
         public ICommand NextTrackCommand => new Command(NextTrackCommandExecute);
         public ICommand PreviousTrackCommand => new Command(PreviousTrackCommandExecute);
         public ICommand OpenTabbedPageCommand => new Command(OpenTabbedPageCommandExecute);
+        public ICommand VolumeCommand => new Command(VolumeCommandExecute);
 
+        public bool IsVolume { get; set; }
         public bool IsPlaying { get; set; }
 
         public StartPlayerPageModel()
@@ -26,16 +28,20 @@ namespace MusicPlayer.PageModels
             audioService = DependencyService.Get<IPlayAudio>();
         }
 
-        public StartPlayerPageModel(TrackModel model)
+        public override void ReverseInit(object returnedData)
         {
-            if (audioService == null)
+            if (returnedData is TrackModel model)
             {
-                audioService = DependencyService.Get<IPlayAudio>();
-            }
+                if (IsPlaying)
+                {
+                    IsPlaying = false;
+                    audioService.StopTrack();
+                }
 
-            if (model.Path != null)
-            {
                 audioService.StartPlayTrack(model);
+                SelectedMusic = model;
+                StartTrackTimer(SelectedMusic);
+                IsPlaying = true;
             }
         }
 
@@ -52,8 +58,8 @@ namespace MusicPlayer.PageModels
             }
         }
 
-        private TimeSpan position;
-        public TimeSpan Position
+        private string position;
+        public string Position
         {
             get { return position; }
             set
@@ -89,6 +95,7 @@ namespace MusicPlayer.PageModels
 
         private void NextTrackCommandExecute()
         {
+            //Position = 0;
             if (isFirstStart)
             {
                 IsPlaying = false;
@@ -101,6 +108,7 @@ namespace MusicPlayer.PageModels
 
         private void PreviousTrackCommandExecute()
         {
+            //Position = 0;
             if (isFirstStart)
             {
                 IsPlaying = false;
@@ -111,18 +119,42 @@ namespace MusicPlayer.PageModels
             }
         }
 
+        private double progressValue;
+        public double ProgressValue
+        {
+            get { return progressValue; }
+            set
+            {
+                progressValue = value;
+                OnPropertyChanged();
+            }
+        }
+        private double maxProgressValue = 100;
+        public double MaxProgressValue
+        {
+            get { return maxProgressValue; }
+            set
+            {
+                maxProgressValue = value;
+                OnPropertyChanged();
+            }
+        }
+
         private void StartTrackTimer(TrackModel selectedMusic)
         {
-            Duration = SecondsToMinutes(selectedMusic.Duration);
+            Duration = DurationFormat(selectedMusic.Duration);
+            MaxProgressValue = Convert.ToDouble(selectedMusic.Duration);
 
-            Device.StartTimer(TimeSpan.FromSeconds(500), () =>
+            Device.StartTimer(TimeSpan.FromSeconds(0.2), () =>
             {
-                Position = TimeSpan.Parse(selectedMusic.Position);
+                ProgressValue = (double)audioService.CurrentTrackProgressPosition();
+                Position = DurationFormat(audioService.CurrentTrackProgressPosition().ToString());
+
                 return true;
             });
         }
 
-        public static string SecondsToMinutes(string duration)
+        public string DurationFormat(string duration)
         {
             int millSecond = int.Parse(duration);
             int hours, minutes, seconds = millSecond / 1000;
@@ -141,6 +173,20 @@ namespace MusicPlayer.PageModels
         private async void OpenTabbedPageCommandExecute()
         {
             await CoreMethods.PushPageModel<ListTabbedPageModel>();
+        }
+
+        private void VolumeCommandExecute()
+        {
+            if (IsVolume)
+            {
+                audioService.SetVolume(false);
+            }
+            else
+            {
+                audioService.SetVolume(true);
+            }
+
+            IsVolume = !IsVolume;
         }
     }
 }

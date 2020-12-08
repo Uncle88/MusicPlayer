@@ -10,11 +10,15 @@ namespace MusicPlayer.Services.PlayService
         void StartPlayTrack(TrackModel model);
         void ContinuePlayTrack();
         void PauseTrack();
+        void StopTrack();
+        int CurrentTrackProgressPosition();
 
         void NextPlayTrack();
         void PrevPlayTrack();
 
         TrackModel GetCurrentTrackModel();
         List<TrackModel> GetTrackModelList();
+
+        void SetVolume(bool level);
     }
 }

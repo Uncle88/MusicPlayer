@@ -30,6 +30,7 @@
             </Style>
 
             <converter:PlayPauseImageConverter x:Key="PlayPauseImageConverter" />
+            <converter:VolumeImageConverter x:Key="VolumeImageConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

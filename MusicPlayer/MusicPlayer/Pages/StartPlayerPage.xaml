@@ -50,7 +50,7 @@
                     <view:PancakeView.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding VolumeCommand}"/>
                     </view:PancakeView.GestureRecognizers>
-                    <Image Source="volume.png"
+                    <Image Source="{Binding IsVolume, Converter={StaticResource VolumeImageConverter}}"
                            HeightRequest="20"
                            WidthRequest="20"
                            HorizontalOptions="Center"
@@ -126,11 +126,9 @@
                         <Label Text="{Binding SelectedMusic.Title}"
                                TextColor="Black"
                                FontSize="25"
-                               x:Name="animatedLabel"
-                               LineBreakMode="NoWrap"
-                               TranslationX="360"
-                               HorizontalOptions="Fill"
-                               HorizontalTextAlignment="Center"/>
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"
+                               Margin="15,0"/>
                     </ScrollView>
                         <Label Text="{Binding SelectedMusic.Artist}"
                                TextColor="Black"
@@ -149,12 +147,13 @@
                     <Slider MinimumTrackColor="#D4420C"
                             MaximumTrackColor="#C0C8D4"
                             ThumbColor="#D4420C"
-                            Value="{Binding Position.TotalSeconds}"
-                            Maximum="100"
+                            Value="{Binding ProgressValue}"
+                            Maximum="{Binding MaxProgressValue}"
+                            Minimum="0"
                             HorizontalOptions="FillAndExpand"/>
                     <Grid HorizontalOptions="FillAndExpand">
-                        <Label Text="{Binding Position, StringFormat='{0:mm\\:ss}'}"
-                               FontSize="12"
+                        <Label FontSize="12"
+                               Text="{Binding Position}"
                                HorizontalOptions="Start"
                                VerticalOptions="Center"/>
                         <Label Text="{Binding Duration}"

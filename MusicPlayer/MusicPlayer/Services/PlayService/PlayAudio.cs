@@ -22,6 +22,11 @@ namespace MusicPlayer.Services.PlayService
             DependencyService.Get<IPlayAudio>().PauseTrack();
         }
 
+        public void StopTrack()
+        {
+            DependencyService.Get<IPlayAudio>().StopTrack();
+        }
+
         public void ContinuePlayTrack()
         {
             DependencyService.Get<IPlayAudio>().ContinuePlayTrack();
@@ -45,6 +50,16 @@ namespace MusicPlayer.Services.PlayService
         public List<TrackModel> GetTrackModelList()
         {
             return DependencyService.Get<IPlayAudio>().GetTrackModelList();
+        }
+
+        public void SetVolume(bool level)
+        {
+            DependencyService.Get<IPlayAudio>().SetVolume(level);
+        }
+
+        public int CurrentTrackProgressPosition()
+        {
+            return DependencyService.Get<IPlayAudio>().CurrentTrackProgressPosition();
         }
     }
 }

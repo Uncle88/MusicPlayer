@@ -8,6 +8,7 @@ using Android.Widget;
 using Android.OS;
 using MusicPlayer.Services.PlayService;
 using Xamarin.Forms;
+using Plugin.CurrentActivity;
 
 namespace MusicPlayer.Droid
 {
@@ -21,6 +22,7 @@ namespace MusicPlayer.Droid
 
             base.OnCreate(savedInstanceState);
 
+            CrossCurrentActivity.Current.Activity = this;
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
@@ -30,7 +32,7 @@ namespace MusicPlayer.Droid
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-
+            Plugin.Permissions.PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }

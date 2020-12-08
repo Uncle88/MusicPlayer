@@ -1,21 +1,23 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using Android.Content;
 using Android.Media;
-using Android.Net;
+using MusicPlayer.Droid.Services.PermissionService;
 using MusicPlayer.Model;
 using MusicPlayer.Services.PlayService;
+using static MusicPlayer.Droid.Helpers.AndroidStorageHelper;
 
 [assembly: Xamarin.Forms.Dependency(typeof(MusicPlayer.Droid.Services.PlayAudio))]
 namespace MusicPlayer.Droid.Services
 {
     public class PlayAudio : IPlayAudio
     {
+        private readonly IPermissionService permissionService;
 		private MediaPlayer mediaPlayer;
         private List<TrackModel> trackModels;
         private Context context;
         private TrackModel currentTrack;
         private int currentTrackIndex = 0;
+        private bool isPermissionGranted;
 
         public PlayAudio()
         {
@@ -23,25 +25,58 @@ namespace MusicPlayer.Droid.Services
             context = Android.App.Application.Context;
             trackModels = new List<TrackModel>();
 
-            trackModels = GetTracksFromRoot(GetMusicDirectory());
+            permissionService = new PermissionService.PermissionService();
+
+            InitData();
+        }
+
+        private async void InitData()
+        {
+            if (permissionService.CheckBuildVersion())
+            {
+                trackModels = GetTracksFromRoot(GetAllFilesFromDirectories(GetDirectories()));
+            }
+            else
+            {
+                var status = await permissionService.GetPermissionStatus();
+
+                if (status == Plugin.Permissions.Abstractions.PermissionStatus.Granted)
+                {
+                    trackModels = GetTracksFromRoot(GetAllFilesFromDirectories(GetDirectories()));
+                }
+                else
+                {
+                    isPermissionGranted = await permissionService.RequestPermissionAsync();
+                }
+            }
         }
 
         [System.Obsolete]
         public void StartPlayTrack()
 		{
-            //var directoryPath = GetMusicDirectory();
-            //trackModels = GetTracksFromRoot(directoryPath);
-            currentTrack = trackModels[0];
-            Uri uri = Uri.Parse(currentTrack.Path);
+            if (trackModels.Count == 0 && isPermissionGranted)
+            {
+                trackModels = GetTracksFromRoot(GetAllFilesFromDirectories(GetDirectories()));
 
-            SetPlayerSourse(uri);
+                currentTrack = trackModels[0];
+                Android.Net.Uri uri = Android.Net.Uri.Parse(currentTrack.Path);
+
+                SetPlayerSourse(uri);
+            }
+            else
+            {
+                currentTrack = trackModels[0];
+                Android.Net.Uri uri = Android.Net.Uri.Parse(currentTrack.Path);
+
+                SetPlayerSourse(uri);
+            }
         }
 
         public void StartPlayTrack(TrackModel model)
         {
             mediaPlayer = new MediaPlayer();
             currentTrack = model;
-            Uri uri = Uri.Parse(model.Path);
+            Android.Net.Uri uri = Android.Net.Uri.Parse(model.Path);
 
             SetPlayerSourse(uri);
         }
@@ -54,6 +89,16 @@ namespace MusicPlayer.Droid.Services
         public void PauseTrack()
         {
             mediaPlayer?.Pause();
+        }
+
+        public void StopTrack()
+        {
+            mediaPlayer?.Stop();
+        }
+
+        public int CurrentTrackProgressPosition()
+        {
+            return (int)(mediaPlayer?.CurrentPosition);
         }
 
         public void NextPlayTrack()
@@ -92,30 +137,26 @@ namespace MusicPlayer.Droid.Services
             return trackModels;
         }
 
-        private string[] GetMusicDirectory()
-		{
-			string directoryDownloadsPath = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, Android.OS.Environment.DirectoryDownloads);
-
-            return Directory.GetFiles(directoryDownloadsPath);
-        }
-
         private List<TrackModel> GetTracksFromRoot(string[] directoriesPathArray)
         {
             foreach (string musicFilePath in directoriesPathArray)
             {
                 MediaMetadataRetriever mmr = new MediaMetadataRetriever();
-                mmr.SetDataSource(musicFilePath);
 
-                trackModels.Add(new TrackModel
+                if (musicFilePath.EndsWith(".mp3"))
                 {
-                    Album = mmr.ExtractMetadata(MetadataKey.Album),
-                    Title = mmr.ExtractMetadata(MetadataKey.Title),
-                    Artist = mmr.ExtractMetadata(MetadataKey.Artist),
-                    Genre = mmr.ExtractMetadata(MetadataKey.Genre),
-                    Position = mmr.ExtractMetadata(MetadataKey.Bitrate),
-                    Duration = mmr.ExtractMetadata(MetadataKey.Duration),
-                    Path = musicFilePath
-                });
+                    mmr.SetDataSource(musicFilePath);
+
+                    trackModels.Add(new TrackModel
+                    {
+                        Album = mmr.ExtractMetadata(MetadataKey.Album),
+                        Title = mmr.ExtractMetadata(MetadataKey.Title),
+                        Artist = mmr.ExtractMetadata(MetadataKey.Artist),
+                        Genre = mmr.ExtractMetadata(MetadataKey.Genre),
+                        Duration = mmr.ExtractMetadata(MetadataKey.Duration),
+                        Path = musicFilePath
+                    });
+                }
             }
 
             return trackModels;
@@ -128,11 +169,23 @@ namespace MusicPlayer.Droid.Services
             mediaPlayer = null;
         }
 
-        private void SetPlayerSourse(Uri uri)
+        private void SetPlayerSourse(Android.Net.Uri uri)
         {
             mediaPlayer.SetDataSource(context, uri);
             mediaPlayer.Prepare();
             mediaPlayer.Start();
+        }
+
+        public void SetVolume(bool isUp)
+        {
+            if (isUp)
+            {
+                mediaPlayer?.SetVolume(0, 0);
+            }
+            else
+            {
+                mediaPlayer?.SetVolume(1, 1);
+            }
         }
     }
 }

@@ -53,7 +53,7 @@ namespace MusicPlayer.iOS.Services
 
         public TrackModel GetCurrentTrackModel()
         {
-            throw new System.NotImplementedException();
+            return new TrackModel();
         }
 
         public void NextPlayTrack()
@@ -68,6 +68,28 @@ namespace MusicPlayer.iOS.Services
         public void StartPlayTrack(TrackModel model)
         {
             
+        }
+
+        public void StopTrack()
+        {
+            _mediaPlayer?.Stop();
+        }
+
+        public void SetVolume(bool isUp)
+        {
+            if (isUp)
+            {
+                _mediaPlayer?.SetVolume(0, 0);
+            }
+            else
+            {
+                _mediaPlayer?.SetVolume(1, 1);
+            }
+        }
+
+        public int CurrentTrackProgressPosition()
+        {
+            return (int)(_mediaPlayer?.CurrentTime);
         }
     }
 }
