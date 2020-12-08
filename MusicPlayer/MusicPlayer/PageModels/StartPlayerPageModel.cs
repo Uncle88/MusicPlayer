@@ -58,8 +58,8 @@ namespace MusicPlayer.PageModels
             }
         }
 
-        private int position;
-        public int Position
+        private string position;
+        public string Position
         {
             get { return position; }
             set
@@ -95,7 +95,7 @@ namespace MusicPlayer.PageModels
 
         private void NextTrackCommandExecute()
         {
-            Position = 0;
+            //Position = 0;
             if (isFirstStart)
             {
                 IsPlaying = false;
@@ -108,7 +108,7 @@ namespace MusicPlayer.PageModels
 
         private void PreviousTrackCommandExecute()
         {
-            Position = 0;
+            //Position = 0;
             if (isFirstStart)
             {
                 IsPlaying = false;
@@ -119,18 +119,42 @@ namespace MusicPlayer.PageModels
             }
         }
 
+        private double progressValue;
+        public double ProgressValue
+        {
+            get { return progressValue; }
+            set
+            {
+                progressValue = value;
+                OnPropertyChanged();
+            }
+        }
+        private double maxProgressValue = 100;
+        public double MaxProgressValue
+        {
+            get { return maxProgressValue; }
+            set
+            {
+                maxProgressValue = value;
+                OnPropertyChanged();
+            }
+        }
+
         private void StartTrackTimer(TrackModel selectedMusic)
         {
-            Duration = SecondsToMinutes(selectedMusic.Duration);
-            Position = TimeSpan.Parse(selectedMusic.Duration).Seconds;
+            Duration = DurationFormat(selectedMusic.Duration);
+            MaxProgressValue = Convert.ToDouble(selectedMusic.Duration);
 
-            Device.StartTimer(TimeSpan.FromSeconds(1), () =>
+            Device.StartTimer(TimeSpan.FromSeconds(0.2), () =>
             {
+                ProgressValue = (double)audioService.CurrentTrackProgressPosition();
+                Position = DurationFormat(audioService.CurrentTrackProgressPosition().ToString());
+
                 return true;
             });
         }
 
-        public static string SecondsToMinutes(string duration)
+        public string DurationFormat(string duration)
         {
             int millSecond = int.Parse(duration);
             int hours, minutes, seconds = millSecond / 1000;

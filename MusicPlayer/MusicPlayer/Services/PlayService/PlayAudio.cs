@@ -56,5 +56,10 @@ namespace MusicPlayer.Services.PlayService
         {
             DependencyService.Get<IPlayAudio>().SetVolume(level);
         }
+
+        public int CurrentTrackProgressPosition()
+        {
+            return DependencyService.Get<IPlayAudio>().CurrentTrackProgressPosition();
+        }
     }
 }

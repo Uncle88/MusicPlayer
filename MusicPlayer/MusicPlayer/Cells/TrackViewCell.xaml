@@ -36,7 +36,7 @@
         </StackLayout>
 
         <Label Grid.Column="2"
-               Text="{Binding Duration, StringFormat='{0:mm\\:ss}'}"
+               Text="{Binding Album}"
                TextColor="#ff4b4b4b"
                FontSize="12"
                HorizontalOptions="Center"

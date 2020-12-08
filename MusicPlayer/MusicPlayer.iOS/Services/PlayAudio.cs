@@ -86,5 +86,10 @@ namespace MusicPlayer.iOS.Services
                 _mediaPlayer?.SetVolume(1, 1);
             }
         }
+
+        public int CurrentTrackProgressPosition()
+        {
+            return (int)(_mediaPlayer?.CurrentTime);
+        }
     }
 }

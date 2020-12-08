@@ -96,6 +96,11 @@ namespace MusicPlayer.Droid.Services
             mediaPlayer?.Stop();
         }
 
+        public int CurrentTrackProgressPosition()
+        {
+            return (int)(mediaPlayer?.CurrentPosition);
+        }
+
         public void NextPlayTrack()
         {
             ResetPlayer();
@@ -148,7 +153,6 @@ namespace MusicPlayer.Droid.Services
                         Title = mmr.ExtractMetadata(MetadataKey.Title),
                         Artist = mmr.ExtractMetadata(MetadataKey.Artist),
                         Genre = mmr.ExtractMetadata(MetadataKey.Genre),
-                        Position = mmr.ExtractMetadata(MetadataKey.Bitrate),
                         Duration = mmr.ExtractMetadata(MetadataKey.Duration),
                         Path = musicFilePath
                     });

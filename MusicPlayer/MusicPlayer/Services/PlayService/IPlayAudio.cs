@@ -11,6 +11,7 @@ namespace MusicPlayer.Services.PlayService
         void ContinuePlayTrack();
         void PauseTrack();
         void StopTrack();
+        int CurrentTrackProgressPosition();
 
         void NextPlayTrack();
         void PrevPlayTrack();

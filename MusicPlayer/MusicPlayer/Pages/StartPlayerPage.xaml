@@ -147,12 +147,13 @@
                     <Slider MinimumTrackColor="#D4420C"
                             MaximumTrackColor="#C0C8D4"
                             ThumbColor="#D4420C"
-                            Value="{Binding Position.TotalSeconds}"
-                            Maximum="100"
+                            Value="{Binding ProgressValue}"
+                            Maximum="{Binding MaxProgressValue}"
+                            Minimum="0"
                             HorizontalOptions="FillAndExpand"/>
                     <Grid HorizontalOptions="FillAndExpand">
-                        <Label Text="{Binding Position}"
-                               FontSize="12"
+                        <Label FontSize="12"
+                               Text="{Binding Position}"
                                HorizontalOptions="Start"
                                VerticalOptions="Center"/>
                         <Label Text="{Binding Duration}"
