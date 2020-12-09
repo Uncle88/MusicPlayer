@@ -12,26 +12,26 @@ namespace MusicPlayer.Pages
         public ListTabbedPage()
         {
             InitializeComponent();
-            _artistButton.Clicked += _recoverButton_Clicked;
-            _albumButton.Clicked += _temporaryButton_Clicked;
-            _genresButton.Clicked += _programsButton_Clicked;
+            _artistButton.Clicked += _artistButton_Clicked;
+            _albumButton.Clicked += _albumButton_Clicked;
+            _genresButton.Clicked += _genresButton_Clicked;
         }
 
-        private void _programsButton_Clicked(object sender, EventArgs e)
+        private void _genresButton_Clicked(object sender, EventArgs e)
         {
             ClearStates();
             _genresBox.BackgroundColor = ActiveTabColor;
             _genresButton.TextColor = ActiveTabColor;
         }
 
-        private void _temporaryButton_Clicked(object sender, EventArgs e)
+        private void _albumButton_Clicked(object sender, EventArgs e)
         {
             ClearStates();
             _albumBox.BackgroundColor = ActiveTabColor;
             _albumButton.TextColor = ActiveTabColor;
         }
 
-        private void _recoverButton_Clicked(object sender, EventArgs e)
+        private void _artistButton_Clicked(object sender, EventArgs e)
         {
             ClearStates();
             _artistBox.BackgroundColor = ActiveTabColor;

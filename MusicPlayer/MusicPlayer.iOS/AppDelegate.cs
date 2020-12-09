@@ -21,6 +21,12 @@ namespace MusicPlayer.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            UIColor tintColor = UIColor.FromRGB(0, 153, 255);
+            UINavigationBar.Appearance.BarTintColor = tintColor;
+            UINavigationBar.Appearance.TintColor = UIColor.White;
+            UINavigationBar.Appearance.TitleTextAttributes = new UIStringAttributes() { ForegroundColor = UIColor.White };
+            UINavigationBar.Appearance.Translucent = false;
+
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 

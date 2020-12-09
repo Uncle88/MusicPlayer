@@ -16,6 +16,7 @@ namespace MusicPlayer.iOS.Services
         private bool isPermissionGranted;
         private List<TrackModel> trackModels;
         private TrackModel currentTrack;
+        private int currentTrackIndex = 0;
 
         public PlayAudio()
         {
@@ -44,7 +45,8 @@ namespace MusicPlayer.iOS.Services
             if (isPermissionGranted)
             {
                 trackModels = GetTrackList();
-                _mediaPlayer = AVAudioPlayer.FromUrl(trackModels[0].UrlIos);
+                currentTrack = trackModels[0];
+                _mediaPlayer = AVAudioPlayer.FromUrl(currentTrack.UrlIos);
                 _mediaPlayer.FinishedPlaying += (object sender, AVStatusEventArgs e) =>
                 {
                     _mediaPlayer = null;
@@ -55,6 +57,7 @@ namespace MusicPlayer.iOS.Services
 
         public void StartPlayTrack(TrackModel model)
         {
+            currentTrack = model;
             _mediaPlayer = AVAudioPlayer.FromUrl(model.UrlIos);
             _mediaPlayer.FinishedPlaying += (object sender, AVStatusEventArgs e) =>
             {
@@ -99,15 +102,31 @@ namespace MusicPlayer.iOS.Services
 
         public void PrevPlayTrack()
         {
+            _mediaPlayer?.Stop();
+            currentTrackIndex = trackModels.IndexOf(currentTrack) - 1;
+            if (currentTrackIndex < 0)
+            {
+                currentTrackIndex = trackModels.Count - 1;
+            }
+            currentTrack = trackModels[currentTrackIndex];
+            StartPlayTrack(currentTrack);
+        }
+        
+        public void NextPlayTrack()
+        {
+            _mediaPlayer?.Stop();
+            currentTrackIndex = trackModels.IndexOf(currentTrack) + 1;
+            if (currentTrackIndex > trackModels.Count - 1)
+            {
+                currentTrackIndex = 0;
+            }
+            currentTrack = trackModels[currentTrackIndex];
+            StartPlayTrack(currentTrack);
         }
 
         public TrackModel GetCurrentTrackModel()
         {
-            return new TrackModel();
-        }
-
-        public void NextPlayTrack()
-        {
+            return currentTrack;
         }
 
         public List<TrackModel> GetTrackModelList()
