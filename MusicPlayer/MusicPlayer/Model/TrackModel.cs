@@ -10,8 +10,8 @@ namespace MusicPlayer.Model
         public string Artist { get; set; }
         public string Url { get; set; }
         public string Path { get; set; }
-        public string Duration { get; set; }
-        public double DurationIos { get; set; }
+        public string DurationSec { get; set; }
+        public string DurationMillisec { get; set; }
         public NSUrl UrlIos { get; set; }
     }
 }

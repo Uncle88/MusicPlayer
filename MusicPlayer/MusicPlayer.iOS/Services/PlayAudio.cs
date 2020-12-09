@@ -90,7 +90,7 @@ namespace MusicPlayer.iOS.Services
                         Title = collection.Items[0].Title,
                         Album = collection.Items[0].AlbumTitle,
                         Genre = collection.Items[0].Genre,
-                        DurationIos = collection.Items[0].PlaybackDuration,
+                        DurationSec = collection.Items[0].PlaybackDuration.ToString(),
                         Artist = collection.Items[0].Artist,
                         UrlIos = collection.Items[0].AssetURL
                     });

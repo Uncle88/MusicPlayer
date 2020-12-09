@@ -153,11 +153,13 @@
                             HorizontalOptions="FillAndExpand"/>
                     <Grid HorizontalOptions="FillAndExpand">
                         <Label FontSize="12"
+                               TextColor="Black"
                                Text="{Binding Position}"
                                HorizontalOptions="Start"
                                VerticalOptions="Center"/>
                         <Label Text="{Binding Duration}"
                                FontSize="12"
+                               TextColor="Black"
                                HorizontalOptions="End"
                                VerticalOptions="Center"/>
                     </Grid>
