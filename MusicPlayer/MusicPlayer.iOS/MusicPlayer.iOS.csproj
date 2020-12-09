@@ -69,6 +69,8 @@
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\PlayAudio.cs" />
+    <Compile Include="Services\PermissionService\IPermissionService.cs" />
+    <Compile Include="Services\PermissionService\PermissionService.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -139,6 +141,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
+    <Folder Include="Services\PermissionService\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\previous.png" />
@@ -150,5 +153,6 @@
     <BundleResource Include="Resources\volumeDisable.png" />
     <BundleResource Include="Resources\volumeEnable.png" />
     <BundleResource Include="Resources\menu.png" />
+    <BundleResource Include="Resources\pause.png" />
   </ItemGroup>
 </Project>

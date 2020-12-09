@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Foundation;
+
 namespace MusicPlayer.Model
 {
     public class TrackModel
@@ -10,5 +11,7 @@ namespace MusicPlayer.Model
         public string Url { get; set; }
         public string Path { get; set; }
         public string Duration { get; set; }
+        public double DurationIos { get; set; }
+        public NSUrl UrlIos { get; set; }
     }
 }

@@ -142,8 +142,8 @@ namespace MusicPlayer.PageModels
 
         private void StartTrackTimer(TrackModel selectedMusic)
         {
-            Duration = DurationFormat(selectedMusic.Duration);
-            MaxProgressValue = Convert.ToDouble(selectedMusic.Duration);
+            //Duration = DurationFormat(selectedMusic.Duration);
+            //MaxProgressValue = Convert.ToDouble(selectedMusic.Duration);
 
             Device.StartTimer(TimeSpan.FromSeconds(0.2), () =>
             {

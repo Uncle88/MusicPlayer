@@ -32,4 +32,9 @@
   <ItemGroup>
     <None Remove="stas.mp3" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Xamarin.iOS">
+      <HintPath>..\..\..\..\..\..\Library\Frameworks\Xamarin.iOS.framework\Versions\14.6.0.15\lib\mono\Xamarin.iOS\Xamarin.iOS.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

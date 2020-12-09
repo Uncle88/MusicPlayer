@@ -1,8 +1,8 @@
 ﻿
 using System.Collections.Generic;
 using AVFoundation;
-using Foundation;
 using MediaPlayer;
+using MusicPlayer.iOS.Services.PermissionService;
 using MusicPlayer.Model;
 using MusicPlayer.Services.PlayService;
 
@@ -12,11 +12,50 @@ namespace MusicPlayer.iOS.Services
     public class PlayAudio : IPlayAudio
     {
         private AVAudioPlayer _mediaPlayer;
+        private readonly IPermissionService permissionService;
+        private bool isPermissionGranted;
+        private List<TrackModel> trackModels;
+        private TrackModel currentTrack;
+
+        public PlayAudio()
+        {
+            trackModels = new List<TrackModel>();
+            permissionService = new PermissionService.PermissionService();
+
+            InitData();
+        }
+
+        private async void InitData()
+        {
+            var status = await permissionService.GetPermissionStatus();
+
+            if (status != Plugin.Permissions.Abstractions.PermissionStatus.Granted)
+            {
+                isPermissionGranted = await permissionService.RequestPermissionAsync();
+            }
+            else
+            {
+                isPermissionGranted = true;
+            }
+        }
 
         public void StartPlayTrack()
         {
-            var tracks = GetTrackList();
-            _mediaPlayer = AVAudioPlayer.FromUrl(tracks[0]);
+            if (isPermissionGranted)
+            {
+                trackModels = GetTrackList();
+                _mediaPlayer = AVAudioPlayer.FromUrl(trackModels[0].UrlIos);
+                _mediaPlayer.FinishedPlaying += (object sender, AVStatusEventArgs e) =>
+                {
+                    _mediaPlayer = null;
+                };
+                _mediaPlayer?.Play();
+            }
+        }
+
+        public void StartPlayTrack(TrackModel model)
+        {
+            _mediaPlayer = AVAudioPlayer.FromUrl(model.UrlIos);
             _mediaPlayer.FinishedPlaying += (object sender, AVStatusEventArgs e) =>
             {
                 _mediaPlayer = null;
@@ -31,20 +70,31 @@ namespace MusicPlayer.iOS.Services
 
         public void ContinuePlayTrack()
         {
-            StartPlayTrack();
+            _mediaPlayer?.Play();
         }
 
-        private List<NSUrl> GetTrackList()
+        private List<TrackModel> GetTrackList()
         {
-            var list = new List<NSUrl>();
             var soundsQuery = MPMediaQuery.SongsQuery;
             var playlistCollection = soundsQuery.Collections;
-            foreach (MPMediaItemCollection collection in playlistCollection)
+
+            if (trackModels.Count == 0)
             {
-                list.Add(collection.Items[0].AssetURL);
+                foreach (MPMediaItemCollection collection in playlistCollection)
+                {
+                    trackModels.Add(new TrackModel
+                    {
+                        Title = collection.Items[0].Title,
+                        Album = collection.Items[0].AlbumTitle,
+                        Genre = collection.Items[0].Genre,
+                        DurationIos = collection.Items[0].PlaybackDuration,
+                        Artist = collection.Items[0].Artist,
+                        UrlIos = collection.Items[0].AssetURL
+                    });
+                }
             }
 
-            return list;
+            return trackModels;
         }
 
         public void PrevPlayTrack()
@@ -62,12 +112,7 @@ namespace MusicPlayer.iOS.Services
 
         public List<TrackModel> GetTrackModelList()
         {
-            return new List<TrackModel>();
-        }
-
-        public void StartPlayTrack(TrackModel model)
-        {
-            
+            return GetTrackList();
         }
 
         public void StopTrack()
