@@ -1,6 +1,4 @@
-﻿using Foundation;
-
-namespace MusicPlayer.Model
+﻿namespace MusicPlayer.Model
 {
     public class TrackModel
     {
@@ -12,6 +10,5 @@ namespace MusicPlayer.Model
         public string Path { get; set; }
         public string DurationSec { get; set; }
         public string DurationMillisec { get; set; }
-        public NSUrl UrlIos { get; set; }
     }
 }
