@@ -46,7 +46,7 @@ namespace MusicPlayer.iOS.Services
             {
                 trackModels = GetTrackList();
                 currentTrack = trackModels[0];
-                _mediaPlayer = AVAudioPlayer.FromUrl(currentTrack.UrlIos);
+                _mediaPlayer = AVAudioPlayer.FromUrl(new Foundation.NSUrl(currentTrack.Url));
                 _mediaPlayer.FinishedPlaying += (object sender, AVStatusEventArgs e) =>
                 {
                     _mediaPlayer = null;
@@ -58,7 +58,7 @@ namespace MusicPlayer.iOS.Services
         public void StartPlayTrack(TrackModel model)
         {
             currentTrack = model;
-            _mediaPlayer = AVAudioPlayer.FromUrl(model.UrlIos);
+            _mediaPlayer = AVAudioPlayer.FromUrl(new Foundation.NSUrl(model.Url));
             _mediaPlayer.FinishedPlaying += (object sender, AVStatusEventArgs e) =>
             {
                 _mediaPlayer = null;
@@ -92,7 +92,7 @@ namespace MusicPlayer.iOS.Services
                         Genre = collection.Items[0].Genre,
                         DurationSec = collection.Items[0].PlaybackDuration.ToString(),
                         Artist = collection.Items[0].Artist,
-                        UrlIos = collection.Items[0].AssetURL
+                        Url = collection.Items[0].AssetURL.ToString()
                     });
                 }
             }
