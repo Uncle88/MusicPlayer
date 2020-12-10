@@ -108,9 +108,9 @@
                         <lottieControl:AnimationView x:Name="animationView"
                                                      HeightRequest="300"
                                                      WidthRequest="300"
-                                                     AutoPlay="True"
+                                                     IsPlaying="{Binding IsPlaying}"
                                                      Loop="True"
-                                                     Animation="musicloading.json"  />
+                                                     Animation="guitar-player.json"  />
                 </view:PancakeView>
 
                 <StackLayout HorizontalOptions="Center"

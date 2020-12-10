@@ -154,7 +154,7 @@
     <BundleResource Include="Resources\menu.png" />
     <BundleResource Include="Resources\pause.png" />
     <BundleResource Include="Resources\PlayerIcon.png" />
-    <BundleResource Include="Resources\musicloading.json" />
+    <BundleResource Include="Resources\guitar-player.json" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />
