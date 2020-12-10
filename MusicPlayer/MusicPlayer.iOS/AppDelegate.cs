@@ -1,5 +1,6 @@
 ﻿
 using Foundation;
+using Lottie.Forms.iOS.Renderers;
 using MusicPlayer.Services.PlayService;
 using UIKit;
 using Xamarin.Forms;
@@ -26,6 +27,8 @@ namespace MusicPlayer.iOS
             UINavigationBar.Appearance.TintColor = UIColor.White;
             UINavigationBar.Appearance.TitleTextAttributes = new UIStringAttributes() { ForegroundColor = UIColor.White };
             UINavigationBar.Appearance.Translucent = false;
+
+            AnimationViewRenderer.Init();
 
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());

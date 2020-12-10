@@ -9,6 +9,7 @@ using Android.OS;
 using MusicPlayer.Services.PlayService;
 using Xamarin.Forms;
 using Plugin.CurrentActivity;
+using Lottie.Forms.Droid;
 
 namespace MusicPlayer.Droid
 {
@@ -25,6 +26,8 @@ namespace MusicPlayer.Droid
             CrossCurrentActivity.Current.Activity = this;
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+
+            AnimationViewRenderer.Init();
 
             LoadApplication(new App());
             DependencyService.Register<IPlayAudio, Services.PlayAudio>();
