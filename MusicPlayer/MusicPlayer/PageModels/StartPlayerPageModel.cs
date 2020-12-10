@@ -5,6 +5,7 @@ using PropertyChanged;
 using System.Windows.Input;
 using System;
 using MusicPlayer.Model;
+using MusicPlayer.Helpers;
 
 namespace MusicPlayer.PageModels
 {
@@ -95,7 +96,6 @@ namespace MusicPlayer.PageModels
 
         private void NextTrackCommandExecute()
         {
-            //Position = 0;
             if (isFirstStart)
             {
                 IsPlaying = false;
@@ -108,7 +108,6 @@ namespace MusicPlayer.PageModels
 
         private void PreviousTrackCommandExecute()
         {
-            //Position = 0;
             if (isFirstStart)
             {
                 IsPlaying = false;
@@ -142,32 +141,32 @@ namespace MusicPlayer.PageModels
 
         private void StartTrackTimer(TrackModel selectedMusic)
         {
-            Duration = DurationFormat(selectedMusic.Duration);
-            MaxProgressValue = Convert.ToDouble(selectedMusic.Duration);
-
-            Device.StartTimer(TimeSpan.FromSeconds(0.2), () =>
+            if (selectedMusic.DurationSec == null)
             {
-                ProgressValue = (double)audioService.CurrentTrackProgressPosition();
-                Position = DurationFormat(audioService.CurrentTrackProgressPosition().ToString());
+                Duration = StringFormatter.DurationFormat(selectedMusic.DurationMillisec);
+                MaxProgressValue = Convert.ToDouble(selectedMusic.DurationMillisec);
+
+                Device.StartTimer(TimeSpan.FromSeconds(0.2), () =>
+                {
+                    ProgressValue = (double)audioService.CurrentTrackProgressPosition();
+                    Position = StringFormatter.DurationFormat(audioService.CurrentTrackProgressPosition().ToString());
 
                 return true;
-            });
-        }
-
-        public string DurationFormat(string duration)
-        {
-            int millSecond = int.Parse(duration);
-            int hours, minutes, seconds = millSecond / 1000;
-
-            hours = (seconds / 3600);
-            minutes = (seconds / 60) % 60;
-            seconds = seconds % 60;
-
-            if (hours == 0)
-            {
-                return string.Format("{0, 0:d2}:{1, 0:d2}", minutes, seconds);
+                });
             }
-            return string.Format("{0, 0:d2}:{1, 0:d2}:{2, 0:d2}", hours, minutes, seconds);
+            else
+            {
+                MaxProgressValue = Convert.ToDouble(selectedMusic.DurationSec);
+                Duration = StringFormatter.DurationFormat((MaxProgressValue * 1000).ToString());
+
+                Device.StartTimer(TimeSpan.FromSeconds(0.2), () =>
+                {
+                    ProgressValue = (double)audioService.CurrentTrackProgressPosition();
+                    Position = StringFormatter.DurationFormat((audioService.CurrentTrackProgressPosition()*1000).ToString());
+
+                    return true;
+                });
+            }
         }
 
         private async void OpenTabbedPageCommandExecute()

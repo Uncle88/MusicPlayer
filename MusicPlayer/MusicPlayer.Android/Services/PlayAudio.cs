@@ -153,7 +153,7 @@ namespace MusicPlayer.Droid.Services
                         Title = mmr.ExtractMetadata(MetadataKey.Title),
                         Artist = mmr.ExtractMetadata(MetadataKey.Artist),
                         Genre = mmr.ExtractMetadata(MetadataKey.Genre),
-                        Duration = mmr.ExtractMetadata(MetadataKey.Duration),
+                        DurationMillisec = mmr.ExtractMetadata(MetadataKey.Duration),
                         Path = musicFilePath
                     });
                 }

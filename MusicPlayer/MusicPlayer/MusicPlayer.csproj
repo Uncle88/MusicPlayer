@@ -17,6 +17,7 @@
     <PackageReference Include="PropertyChanged.Fody" Version="3.2.10" />
     <PackageReference Include="FreshMvvm" Version="3.0.0" />
     <PackageReference Include="Plugin.Permissions" Version="3.0.0.12" />
+    <PackageReference Include="Com.Airbnb.Xamarin.Forms.Lottie" Version="3.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pages\" />
@@ -28,8 +29,14 @@
     <Folder Include="Controls\" />
     <Folder Include="Cells\" />
     <Folder Include="Triggers\" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="stas.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Xamarin.iOS">
+      <HintPath>..\..\..\..\..\..\Library\Frameworks\Xamarin.iOS.framework\Versions\14.6.0.15\lib\mono\Xamarin.iOS\Xamarin.iOS.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

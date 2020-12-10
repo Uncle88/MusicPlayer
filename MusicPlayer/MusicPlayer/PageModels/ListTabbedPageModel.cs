@@ -23,10 +23,13 @@ namespace MusicPlayer.PageModels
 
         public ListTabbedPageModel()
         {
-            audioService = DependencyService.Get<IPlayAudio>();
-            tracksList = audioService.GetTrackModelList();
+            if (tracksList.Count == 0)
+            {
+                audioService = DependencyService.Get<IPlayAudio>();
+                tracksList = audioService.GetTrackModelList();
 
-            Items = tracksList.OrderBy(x => x.Artist).ToList();
+                Items = tracksList.OrderBy(x => x.Artist).ToList();
+            }
         }
 
         private void SelectedArtistTabCommandExecute()
